@@ -462,7 +462,7 @@ def voluntario_update():
 def admin_stats():
     try:
         vols_count = run_db_query("SELECT COUNT(*) as count FROM voluntarios")[0]['count']
-        doacoes_stats = run_db_query("SELECT COUNT(*) as count, SUM(valor) as total FROM doacoes")[0]
+        doacoes_stats = run_db_query("SELECT COUNT(*) as count, SUM(valor) as total FROM doacoes WHERE status = 'Confirmado'")[0]
         d_qty = doacoes_stats['count']
         d_val = doacoes_stats['total'] if doacoes_stats['total'] is not None else 0.0
         
