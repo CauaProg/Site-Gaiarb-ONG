@@ -518,6 +518,19 @@ def admin_recusar_voluntario():
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
+@app.route('/api/admin/doacoes/status', methods=['POST'])
+def admin_update_doacao_status():
+    data = request.json or {}
+    did = data.get('id')
+    status = data.get('status')
+    if not did or not status:
+        return jsonify({"success": False, "error": "ID da doação e status são obrigatórios"}), 400
+    try:
+        run_db_query("UPDATE doacoes SET status = ? WHERE id = ?", (status, did))
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
 @app.route('/api/admin/doacoes', methods=['GET'])
 def get_doacoes_admin():
     try:

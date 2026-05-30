@@ -201,6 +201,7 @@
                                 <th>Valor</th>
                                 <th>Método</th>
                                 <th>Status</th>
+                                <th>Ações</th>
                                 <th>Data / Hora</th>
                             </tr>
                         </thead>
@@ -399,7 +400,23 @@
                         currency: "BRL"
                     });
                     const formattedDate = new Date(d.data_doacao).toLocaleString("pt-BR");
-                    const statusClass = d.status === 'Pendente' ? 'status-pendente' : 'status-sucesso';
+                    const statusClass = d.status === 'Confirmado' ? 'status-sucesso' : 'status-pendente';
+                    
+                    let botoesAcao = '';
+                    if (d.status === 'Pendente') {
+                        botoesAcao = `
+                            <button class="btn-acao btn-aprovar" onclick="alterarStatusDoacao(${d.id}, 'Confirmado')">Confirmar</button>
+                            <button class="btn-acao btn-recusar" onclick="alterarStatusDoacao(${d.id}, 'Cancelado')">Cancelar</button>
+                        `;
+                    } else if (d.status === 'Confirmado') {
+                        botoesAcao = `
+                            <button class="btn-acao btn-recusar" onclick="alterarStatusDoacao(${d.id}, 'Cancelado')">Cancelar</button>
+                        `;
+                    } else { // Cancelado
+                        botoesAcao = `
+                            <button class="btn-acao btn-aprovar" onclick="alterarStatusDoacao(${d.id}, 'Confirmado')">Confirmar</button>
+                        `;
+                    }
                     
                     tbl.innerHTML += `
                         <tr>
@@ -407,12 +424,13 @@
                             <td><strong style="color:var(--secondary)">${formattedVal}</strong></td>
                             <td>💳 ${d.tipo}</td>
                             <td><span class="badge-status ${statusClass}">${d.status}</span></td>
+                            <td><div style="display: flex; gap: 4px;">${botoesAcao}</div></td>
                             <td>${formattedDate}</td>
                         </tr>
                     `;
                 });
             } else {
-                tbl.innerHTML = '<tr><td colspan="5" class="text-center">Nenhuma doação registrada ainda.</td></tr>';
+                tbl.innerHTML = '<tr><td colspan="6" class="text-center">Nenhuma doação registrada ainda.</td></tr>';
             }
         })
         .catch(err => console.error("Erro ao carregar doações:", err));
@@ -525,6 +543,34 @@
         .catch(err => {
             console.error('Erro ao recusar:', err);
             alert('Erro de rede ou permissão ao recusar voluntário.');
+        });
+    }
+
+    function alterarStatusDoacao(id, status) {
+        const statusMsg = status === 'Confirmado' ? 'confirmar' : 'cancelar';
+        if (!confirm(`Deseja realmente ${statusMsg} esta doação?`)) return;
+        fetch(API_URL + '/api/admin/doacoes/status', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ id, status })
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Falha na resposta do servidor');
+            return res.json();
+        })
+        .then(data => {
+            if (data.success) {
+                carregarDados();
+            } else {
+                alert('Erro ao atualizar status da doação: ' + (data.error || 'Erro desconhecido'));
+            }
+        })
+        .catch(err => {
+            console.error('Erro ao atualizar doação:', err);
+            alert('Erro de rede ou permissão ao atualizar doação.');
         });
     }
 </script>
