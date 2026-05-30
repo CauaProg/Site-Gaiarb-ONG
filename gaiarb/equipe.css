@@ -1,0 +1,175 @@
+/* ═══════════════════════════════════════════════
+   GAIARB – equipe.css (Organic NGO Redesign)
+   ═══════════════════════════════════════════════ */
+
+/* ── INTRO ──────────────────────────────────────── */
+.equipe-intro {
+    background: var(--bg);
+    padding: 80px 0;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.equipe-intro h2 {
+    font-family: 'Lora', serif;
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text);
+}
+
+.equipe-intro h2 span {
+    color: var(--secondary);
+}
+
+.equipe-intro p {
+    font-size: 16px;
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.65;
+}
+
+/* ── TEAM GRID ──────────────────────────────────── */
+.team-section {
+    padding: 80px 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+}
+
+.team-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.team-card {
+    width: 80%;
+    max-width: 800px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 40px;
+    transition: background-color 0.2s ease;
+    align-self: flex-start;
+}
+
+.team-card:hover {
+    background-color: var(--primary-light);
+}
+
+.team-avatar-wrap {
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    transform: translateZ(0);
+    border-radius: 30% 70% 40% 60% / 50% 30% 70% 50%;
+    border: 2px solid var(--primary);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+}
+
+.team-card:nth-child(even) .team-avatar-wrap {
+    border-radius: 70% 30% 60% 40% / 30% 50% 50% 70%;
+    border-color: var(--secondary);
+}
+
+.team-avatar-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: inherit;
+}
+
+.team-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.team-card:nth-child(even) {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+.team-card:nth-child(even) .team-card-content {
+    align-items: flex-end;
+}
+
+.member-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: var(--primary-light);
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    margin-bottom: 12px;
+}
+
+.team-card:nth-child(even) .member-badge {
+    color: var(--secondary);
+    background: #fbf0ee;
+    border-color: #f3d4ce;
+}
+
+.member-name {
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.35;
+}
+
+.member-bio {
+    font-size: 15px;
+    color: var(--text-light);
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* ── RESPONSIVE ────────────────────────────────── */
+@media screen and (max-width: 768px) {
+    .equipe-intro {
+        padding: 60px 0;
+    }
+    
+    .equipe-intro h2 {
+        font-size: 30px;
+    }
+    
+    .team-section {
+        padding: 60px 0;
+    }
+    
+    .team-card, .team-card:nth-child(even) {
+        width: 100%;
+        max-width: 450px;
+        align-self: center;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        padding: 30px;
+        gap: 24px;
+    }
+    
+    .team-card-content, .team-card:nth-child(even) .team-card-content {
+        align-items: center;
+    }
+}

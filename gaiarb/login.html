@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar – GAIARB</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="icon" type="image/x-icon" href="imagens/gaiarbLogoIcon.ico">
+</head>
+<body>
+
+<!-- HEADER -->
+<!-- HEADER -->
+<div class="header">
+    <a href="index.html" id="logo-svg">
+        <img src="imagens/simbolo_infinito.png" alt="GAIARB Logo" style="height: 38px; width: auto; object-fit: contain;">
+        <span>GAIARB</span>
+    </a>
+    <div class="alllinks">
+        <a href="index.html">     <div class="linkshead">Início</div>                   </a>
+        <a href="sobre.html">     <div class="linkshead">Sobre</div>                    </a>
+        <a href="equipe.html">    <div class="linkshead">Nossa Equipe</div>             </a>
+        <a href="doe.html">       <div class="linkshead">Doações</div>                  </a>
+        <a href="voluntario.html"><div class="linkshead">Voluntário</div>        </a>
+        <a href="login.html">     <div class="linkshead btn-entrar active">Entrar</div> </a>
+        <a href="doe.html">       <div class="linkshead btn-doe">Doe agora →</div>      </a>
+    </div>
+</div>
+
+<!-- MAIN CONTENT WRAPPER -->
+<div class="login-wrapper">
+
+    <!-- LOGIN PANEL CARD (Shown by default) -->
+    <div class="login-card-container" id="loginCardContainer">
+        <!-- Tabs -->
+        <div class="login-tabs">
+            <button class="tab-btn active" id="tabAdmin" onclick="switchTab('admin')">👤 Administrador</button>
+            <button class="tab-btn" id="tabVol" onclick="switchTab('vol')">🤝 Voluntário</button>
+        </div>
+
+        <div class="login-body">
+            <!-- Admin Form -->
+            <div class="login-form-section active" id="formAdminSection">
+                <h2>Painel do Administrador</h2>
+                <p>Insira suas credenciais administrativas para gerenciar a associação.</p>
+                <div class="input-group">
+                    <label for="adminUsername">Usuário</label>
+                    <input type="text" id="adminUsername" placeholder="Nome de usuário" required>
+                </div>
+                <div class="input-group">
+                    <label for="adminPassword">Senha</label>
+                    <input type="password" id="adminPassword" placeholder="Sua senha secreta" required>
+                </div>
+                <div class="error-msg" id="adminError"></div>
+                <button class="btn-submit" onclick="submitAdminLogin()">Entrar como Admin →</button>
+            </div>
+
+            <!-- Volunteer Form -->
+            <div class="login-form-section" id="formVolSection">
+                <h2>Portal do Voluntário</h2>
+                <p>Acesse seu perfil de voluntário utilizando seus dados cadastrados.</p>
+                <div class="input-group">
+                    <label for="volEmail">E-mail</label>
+                    <input type="email" id="volEmail" placeholder="seuemail@exemplo.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="volWhatsapp">WhatsApp</label>
+                    <input type="tel" id="volWhatsapp" placeholder="(21) 99999-0000" required>
+                </div>
+                <div class="error-msg" id="volError"></div>
+                <button class="btn-submit btn-purple" onclick="submitVolunteerLogin()">Acessar Portal →</button>
+                <div style="margin-top: 20px; text-align: center; font-size: 14px; color: var(--text-light);">
+                    Não possui cadastro? <a href="cadastrar.html" style="color: var(--primary); font-weight: 700; text-decoration: none;">Cadastre-se aqui</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VOLUNTEER DASHBOARD (Shown post-login) -->
+    <div class="volunteer-dashboard" id="volDashboard" style="display: none;">
+        <div class="dashboard-header">
+            <div>
+                <h2>Bem-vindo, <span id="dashVolNome">Voluntário</span>!</h2>
+                <p>Obrigado por apoiar mães e famílias atípicas do GAIARB 💜</p>
+            </div>
+            <button class="btn-logout-vol" onclick="logoutVolunteer()">🚪 Sair</button>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Badge Card -->
+            <div class="badge-panel">
+                <h3>Sua Credencial Digital</h3>
+                <div class="digital-badge">
+                    <div class="badge-header">
+                        <div class="badge-logo">
+                            <svg width="24" height="24" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M25,30 C25,18 10,10 10,30 C10,50 25,42 25,30 C25,18 40,10 50,30 C60,50 75,42 75,30 C75,18 90,10 90,30 C90,50 75,42 75,30 C75,18 60,10 50,30 C40,50 25,42 25,30Z" fill="none" stroke="white" stroke-width="8" stroke-linecap="round"/>
+                            </svg>
+                            <span>GAIARB</span>
+                        </div>
+                        <span class="badge-stamp">ATIVO</span>
+                    </div>
+                    <div class="badge-avatar-wrap">
+                        <div class="badge-avatar">🤝</div>
+                    </div>
+                    <div class="badge-details">
+                        <div class="badge-name" id="badgeNome">Nome do Voluntário</div>
+                        <div class="badge-role" id="badgeArea">Área de Atuação</div>
+                        <div class="badge-info-row">
+                            <div>
+                                <span class="info-label">Membro Desde</span>
+                                <span class="info-val" id="badgeData">Janeiro 2026</span>
+                            </div>
+                            <div>
+                                <span class="info-label">ID Registro</span>
+                                <span class="info-val" id="badgeId">#G-0024</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="badge-footer">
+                        <div class="badge-barcode"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile / Actions Panel -->
+            <div class="profile-actions-panel">
+                <div class="card-action">
+                    <h3>Suas Preferências</h3>
+                    <p>Atualize seus dados de atuação voluntária quando necessário:</p>
+                    
+                    <div class="input-group">
+                        <label for="editArea">Área de Atuação</label>
+                        <select id="editArea">
+                            <option>Psicologia / Saúde Mental</option>
+                            <option>Educação / Pedagogia</option>
+                            <option>Comunicação / Marketing</option>
+                            <option>Tecnologia</option>
+                            <option>Artes e Atividades Criativas</option>
+                            <option>Organização de Eventos</option>
+                            <option>Transporte / Logística</option>
+                            <option>Apoio Administrativo</option>
+                            <option>Outra área</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="editDisp">Disponibilidade</label>
+                        <select id="editDisp">
+                            <option>Fins de semana</option>
+                            <option>Dias úteis – manhã</option>
+                            <option>Dias úteis – tarde</option>
+                            <option>Dias úteis – noite</option>
+                            <option>Flexível</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="editMsg">Sua Mensagem</label>
+                        <textarea id="editMsg" rows="3" placeholder="Atualize suas metas ou comentários..."></textarea>
+                    </div>
+
+                    <div id="updateStatusMsg" class="status-alert"></div>
+                    <button class="btn-submit btn-purple" onclick="updateVolunteerProfile()">Atualizar Perfil</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guidelines and Resources Panel -->
+        <div class="resources-panel">
+            <h3>Recursos e Avisos para Voluntários</h3>
+            <div class="resources-list">
+                <div class="resource-item">
+                    <span class="resource-icon">&#9642;</span>
+                    <div>
+                        <h4>Grupo de Comunicação do GAIARB</h4>
+                        <p>Entre no nosso canal do WhatsApp para receber chamados de eventos e informativos em tempo real. Solicite o link à presidência.</p>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <span class="resource-icon">&#9642;</span>
+                    <div>
+                        <h4>Próximo Workshop de Inclusão</h4>
+                        <p>Fique atento às datas do treinamento mensal online para acolhimento de mães atípicas. O link de participação será enviado por e-mail.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-col" id="footer-logo">
+            <a href="index.html" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                <img src="imagens/simbolo_infinito.png" alt="GAIARB Logo" style="height: 38px; width: auto; object-fit: contain;">
+                <span style="font-family:'Lora',sans-serif;font-weight:700;font-size:22px;color:var(--accent);">GAIARB</span>
+            </a>
+            <p>Juntos por inclusão, respeito e<br>qualidade de vida.<br><br>&copy; 2026 GAIARB.<br>Todos os direitos reservados.</p>
+        </div>
+        <div class="footer-col">
+            <h3>Navegação</h3>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="sobre.html">Sobre Nós</a></li>
+                <li><a href="equipe.html">Nossa Equipe</a></li>
+                <li><a href="doe.html">Doações</a></li>
+                <li><a href="voluntario.html">Seja Voluntário</a></li>
+                <li><a href="admin.html">Painel Admin</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h3>Contato</h3>
+            <p>Email: contato@gaiarb.org<br><br>Telefone: +55 21 99999-9999<br><br>Endereço: Rio Bonito – RJ</p>
+        </div>
+        <div class="footer-col">
+            <h3>Siga-nos</h3>
+            <div class="footer-social">
+                <a href="https://www.instagram.com/gaiarb_rj/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="white" stroke-width="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="white" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" stroke-width="2"/></svg>
+                </a>
+                <a href="https://www.facebook.com/gaiarb.rio.bonito" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                </a>
+                <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.114.549 4.1 1.51 5.833L.057 23.776a.5.5 0 0 0 .614.639l6.044-1.45A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.872 0-3.627-.484-5.158-1.334l-.366-.213-3.795.912.946-3.694-.234-.381A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>Desenvolvido pelo Grupo GAIARB &nbsp;|&nbsp; Projeto Extensionista – Sistemas de Informação</p>
+    </div>
+</footer>
+
+<script>
+    const apiBase = window.location.protocol === 'file:' ? 'http://127.0.0.1:8000' : '';
+
+    // Tab switching logic
+    function switchTab(role) {
+        document.getElementById('tabAdmin').classList.remove('active');
+        document.getElementById('tabVol').classList.remove('active');
+        document.getElementById('formAdminSection').classList.remove('active');
+        document.getElementById('formVolSection').classList.remove('active');
+
+        if (role === 'admin') {
+            document.getElementById('tabAdmin').classList.add('active');
+            document.getElementById('formAdminSection').classList.add('active');
+        } else {
+            document.getElementById('tabVol').classList.add('active');
+            document.getElementById('formVolSection').classList.add('active');
+        }
+    }
+
+    // Submit Admin Login (Standard credentials verification)
+    async function submitAdminLogin() {
+        const u = document.getElementById('adminUsername').value.trim();
+        const p = document.getElementById('adminPassword').value.trim();
+        const errorDiv = document.getElementById('adminError');
+        errorDiv.textContent = '';
+
+        if (!u || !p) {
+            errorDiv.textContent = 'Por favor, preencha todos os campos.';
+            return;
+        }
+
+        try {
+            const res = await fetch(apiBase + '/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: u, password: p })
+            });
+            const data = await res.json();
+            if (data.success) {
+                localStorage.setItem('adminToken', data.token);
+                localStorage.setItem('adminNome', data.admin.nome);
+                window.location.href = 'admin.html';
+            } else {
+                errorDiv.textContent = data.error || 'Erro ao realizar login.';
+            }
+        } catch (e) {
+            errorDiv.textContent = 'Erro ao se conectar ao servidor.';
+        }
+    }
+
+    // Submit Volunteer Login
+    async function submitVolunteerLogin() {
+        const e = document.getElementById('volEmail').value.trim();
+        const w = document.getElementById('volWhatsapp').value.trim();
+        const errorDiv = document.getElementById('volError');
+        errorDiv.textContent = '';
+
+        if (!e || !w) {
+            errorDiv.textContent = 'Por favor, insira o e-mail e o WhatsApp cadastrados.';
+            return;
+        }
+
+        try {
+            const res = await fetch(apiBase + '/api/voluntario/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: e, whatsapp: w })
+            });
+            const data = await res.json();
+            if (data.success) {
+                localStorage.setItem('volToken', data.token);
+                localStorage.setItem('volData', JSON.stringify(data.voluntario));
+                showVolunteerPortal(data.voluntario);
+            } else {
+                errorDiv.textContent = data.error || 'Credenciais de voluntário não encontradas.';
+            }
+        } catch (err) {
+            errorDiv.textContent = 'Erro ao se conectar ao servidor.';
+        }
+    }
+
+    // Show Volunteer Portal Dashboard View
+    function showVolunteerPortal(vol) {
+        document.getElementById('loginCardContainer').style.display = 'none';
+        document.getElementById('volDashboard').style.display = 'block';
+
+        // Set text
+        document.getElementById('dashVolNome').textContent = vol.nome.split(' ')[0];
+        document.getElementById('badgeNome').textContent = vol.nome;
+        document.getElementById('badgeArea').textContent = vol.area;
+        document.getElementById('badgeId').textContent = '#G-' + String(vol.id).padStart(4, '0');
+        
+        // Format date
+        let dateStr = "Setembro 2023";
+        if (vol.data_cadastro) {
+            const d = new Date(vol.data_cadastro);
+            const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+            dateStr = `${months[d.getMonth()]} ${d.getFullYear()}`;
+        }
+        document.getElementById('badgeData').textContent = dateStr;
+
+        // Set inputs for editing
+        document.getElementById('editArea').value = vol.area;
+        document.getElementById('editDisp').value = vol.disponibilidade || 'Flexível';
+        document.getElementById('editMsg').value = vol.mensagem || '';
+    }
+
+    // Update Volunteer Profile preferences
+    async function updateVolunteerProfile() {
+        const token = localStorage.getItem('volToken');
+        const area = document.getElementById('editArea').value;
+        const disp = document.getElementById('editDisp').value;
+        const msg = document.getElementById('editMsg').value;
+        const statusDiv = document.getElementById('updateStatusMsg');
+        statusDiv.textContent = '';
+        statusDiv.className = 'status-alert';
+
+        if (!token) return;
+
+        try {
+            const res = await fetch(apiBase + '/api/voluntario/update', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ area: area, disponibilidade: disp, mensagem: msg })
+            });
+            const data = await res.json();
+            if (data.success) {
+                statusDiv.textContent = 'Informações atualizadas com sucesso! 💾';
+                statusDiv.classList.add('success');
+                
+                // Update badge and cache
+                document.getElementById('badgeArea').textContent = area;
+                let volCached = JSON.parse(localStorage.getItem('volData'));
+                volCached.area = area;
+                volCached.disponibilidade = disp;
+                volCached.mensagem = msg;
+                localStorage.setItem('volData', JSON.stringify(volCached));
+            } else {
+                statusDiv.textContent = data.error || 'Erro ao salvar alterações.';
+                statusDiv.classList.add('error');
+            }
+        } catch (e) {
+            statusDiv.textContent = 'Erro de rede ao salvar.';
+            statusDiv.classList.add('error');
+        }
+    }
+
+    // Logout volunteer
+    function logoutVolunteer() {
+        localStorage.removeItem('volToken');
+        localStorage.removeItem('volData');
+        document.getElementById('volDashboard').style.display = 'none';
+        document.getElementById('loginCardContainer').style.display = 'block';
+    }
+
+    // Check if volunteer already logged in
+    window.addEventListener('load', () => {
+        const volToken = localStorage.getItem('volToken');
+        const volData = localStorage.getItem('volData');
+        if (volToken && volData) {
+            showVolunteerPortal(JSON.parse(volData));
+        }
+    });
+</script>
+<script src="script.js" defer></script>
+</body>
+</html>

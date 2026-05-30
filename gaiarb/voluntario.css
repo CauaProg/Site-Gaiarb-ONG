@@ -1,0 +1,274 @@
+/* ═══════════════════════════════════════════════
+   GAIARB – voluntario.css (Organic NGO Redesign)
+   ═══════════════════════════════════════════════ */
+
+/* ── BANNER ─────────────────────────────────────── */
+.banner {
+    padding: 80px 0;
+    background: var(--bg);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.banner p {
+    font-family: 'Lora', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+}
+
+.banner p span {
+    color: var(--secondary);
+}
+
+/* ── VOLUNTÁRIO EDITORIAL SECTION ────────────────── */
+.voluntario-editorial-section {
+    padding: 80px 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+}
+
+.voluntario-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 80px;
+    align-items: start;
+}
+
+/* Coluna Manifesto */
+.vol-manifesto-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.vol-tagline {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--secondary);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.vol-title {
+    font-family: 'Lora', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 24px;
+    line-height: 1.1;
+}
+
+.vol-lead {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.vol-text {
+    font-size: 15px;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+/* Lista de Frentes de Ação */
+.vol-frentes-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    border-top: 1px solid var(--border);
+    padding-top: 40px;
+}
+
+.vol-frente-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.vol-frente-num {
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    background: var(--primary-light);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+}
+
+.vol-frente-desc h4 {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.vol-frente-desc p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Coluna Formulário */
+.vol-form-col {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 40px;
+}
+
+.vol-form-col .form-title {
+    font-family: 'Lora', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.vol-form-col .form-subtitle {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.5;
+    margin-bottom: 32px;
+}
+
+.form-fieldset-sharp {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-grupo-sharp {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-grupo-sharp label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.field-sharp, .select-sharp, .textarea-sharp {
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.2s ease;
+    background: #fdfdfb;
+    color: var(--text);
+}
+
+.field-sharp:focus, .select-sharp:focus, .textarea-sharp:focus {
+    border-color: var(--primary);
+    background: var(--white);
+}
+
+.textarea-sharp {
+    resize: vertical;
+    min-height: 110px;
+}
+
+/* ── POR QUE SER VOLUNTÁRIO (EDITORIAL) ─────────── */
+.porque-section-editorial {
+    padding: 80px 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+}
+
+.porque-title {
+    font-family: 'Lora', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 56px;
+    text-align: center;
+}
+
+.porque-grid-editorial {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.porque-col-editorial {
+    border-left: 2px solid var(--border);
+    padding-left: 24px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s ease;
+}
+
+.porque-col-editorial:hover {
+    border-left-color: var(--secondary);
+}
+
+.porque-num {
+    font-family: 'Lora', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--secondary);
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: 16px;
+}
+
+.porque-col-editorial h4 {
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+
+.porque-col-editorial p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── RESPONSIVO ────────────────────────────────── */
+@media screen and (max-width: 992px) {
+    .voluntario-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+    }
+    
+    .porque-grid-editorial {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .banner { padding: 60px 0; }
+    .banner p { font-size: 30px; }
+    .voluntario-editorial-section, .porque-section-editorial { padding: 60px 0; }
+    .vol-title, .porque-title { font-size: 30px; }
+    
+    .porque-grid-editorial {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .banner p { font-size: 24px; }
+    .vol-form-col { padding: 24px; }
+}

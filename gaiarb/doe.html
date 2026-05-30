@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doe Aqui – GAIARB</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="doe.css">
+    <link rel="icon" type="image/x-icon" href="imagens/gaiarbLogoIcon.ico">
+    <!-- Biblioteca QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <a href="index.html" id="logo-svg">
+        <img src="imagens/simbolo_infinito.png" alt="GAIARB Logo" style="height: 38px; width: auto; object-fit: contain;">
+        <span>GAIARB</span>
+    </a>
+    <div class="alllinks">
+        <a href="index.html">     <div class="linkshead">Início</div>               </a>
+        <a href="sobre.html">     <div class="linkshead">Sobre</div>                </a>
+        <a href="equipe.html">    <div class="linkshead">Nossa Equipe</div>             </a>
+        <a href="doe.html">       <div class="linkshead active">Doações</div>           </a>
+        <a href="voluntario.html"><div class="linkshead">Voluntário</div>           </a>
+        <a href="login.html">     <div class="linkshead btn-entrar">Entrar</div> </a>
+        <a href="doe.html">       <div class="linkshead btn-doe">Doe agora →</div>  </a>
+    </div>
+</div>
+
+<!-- HERO DA DOAÇÃO -->
+<section class="doe-hero">
+    <div class="container">
+        <div class="doe-hero-texto">
+            <h1>Sua doação<br><span>transforma vidas</span></h1>
+            <p>Cada recurso doado é destinado integralmente à manutenção das nossas atividades socioeducativas, suporte de famílias e melhoria contínua dos nossos projetos em Rio Bonito.</p>
+            <div class="doe-hero-badges">
+                <span class="badge">100% Transparente</span>
+                <span class="badge">270+ Famílias beneficiadas</span>
+                <span class="badge">Doação Segura</span>
+            </div>
+        </div>
+        <div class="doe-hero-visual">
+            <div class="doe-card-hero">
+                <div class="icon-container">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </div>
+                <h3>Apoie a Associação</h3>
+                <p>Use o formulário abaixo para fazer sua contribuição direta de forma simples e rápida.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AREA DE DOAÇÃO DIRETA -->
+<section class="doe-dashboard-section">
+    <div class="container">
+        <div class="doe-dashboard-grid">
+            
+            <!-- COLUNA ESQUERDA: PIX QR CODE -->
+            <div class="doe-panel-input">
+                <span class="doe-tagline">ESCANEIE E DOE</span>
+                <h2 class="doe-title">Doação via PIX</h2>
+                <p class="doe-desc">Abra o aplicativo do seu banco, escolha a opção PIX, aponte a câmera para o QR Code abaixo ou copie a chave para doar qualquer valor desejado.</p>
+                
+                <div class="pix-output-wrap">
+                    <div class="pix-qr-container">
+                        <div id="staticPixQrCode" class="pix-qr-box">
+                            <span class="pix-placeholder-text">Carregando QR Code...</span>
+                        </div>
+                    </div>
+                    <div class="pix-details">
+                        <span id="mp-status-badge" style="display:none; font-size: 11px; font-weight: 700; color: var(--secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">Mercado Pago Ativo</span>
+                        <br>
+                        <span class="pix-label">Chave PIX Aleatória</span>
+                        <div class="pix-chave-box" onclick="copiarChave('67c3117b-28f1-4ac2-94a6-c4bc3121807f')">
+                            <span>67c3117b-28f1-4ac2-94a6-c4bc3121807f</span>
+                            <span class="copiar-badge">Copiar</span>
+                        </div>
+                        
+                        <span class="pix-label" style="margin-top: 15px;">PIX Copia e Cola</span>
+                        <div class="pix-chave-box" id="pixCopiaColaBox" style="word-break: break-all;" onclick="copiarChaveCopiaCola()">
+                            <span id="pixCopiaColaText" style="font-size: 11px;">Carregando código...</span>
+                            <span class="copiar-badge">Copiar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUNA DIREITA: GERAR PAGAMENTO COM MERCADO PAGO -->
+            <div class="doe-panel-output">
+                <div class="registro-doacao-box">
+                    <span class="doe-tagline">MERCADO PAGO</span>
+                    <h3 class="panel-subtitle" style="font-family:'Lora',serif; font-size: 24px; color: var(--primary); margin-bottom: 12px;">Gerar Pix Dinâmico</h3>
+                    <p style="font-size: 14px; color: var(--text-light); line-height: 1.6; margin-bottom: 20px;">
+                        Defina a quantia que deseja doar. Nosso sistema integrado ao Mercado Pago gerará um QR Code PIX dinâmico no valor exato.
+                    </p>
+                    
+                    <div class="doe-input-group">
+                        <label for="doeValorInput" class="doe-label">Valor da Doação (R$)</label>
+                        <input type="number" id="doeValorInput" class="doe-field-input" placeholder="Ex: 50.00" min="1" step="any" value="50">
+                    </div>
+                    
+                    <button class="btn-primary" id="btnGerarPix" style="width: 100%; text-align: center; justify-content: center; display: block; margin-top: 25px;" onclick="gerarDoacaoMercadoPago()">Gerar QR Code PIX</button>
+                    
+                    <div id="doe-success-msg" style="display: none; margin-top: 20px; padding: 15px; border: 1px solid var(--primary); background: var(--primary-light); color: var(--primary); font-size: 14px; font-weight: 600;">
+                        Doação registrada com sucesso! Muito obrigado pelo seu apoio.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- FORMAS DE DOAÇÃO -->
+<section class="formas-section">
+    <div class="container">
+        <h2>Outras formas de ajudar</h2>
+        <div class="formas-doe">
+
+            <div class="forma-card">
+                <h3>PIX Direto</h3>
+                <p>Transferência rápida e sem tarifas bancárias. Copie a nossa chave ou escaneie o código.</p>
+                <span class="info-chave" onclick="copiarChave('67c3117b-28f1-4ac2-94a6-c4bc3121807f')">
+                    67c3117b-28f1-4ac2-94a6-c4bc3121807f
+                </span>
+            </div>
+
+            <div class="forma-card">
+                <h3>Depósito Bancário</h3>
+                <p>Realize um TED, DOC ou depósito direto na conta corrente oficial do projeto.</p>
+                <p style="font-size:13px;line-height:1.5;">
+                    <strong>Banco:</strong> Nubank (Nu Pagamentos S.A.)<br>
+                    <strong>Agência:</strong> 0001 &nbsp;|&nbsp; <strong>Conta:</strong> 12345678-9<br>
+                    <strong>CNPJ:</strong> 53.164.276/0001-71
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- IMPACTO -->
+<section class="impacto-section">
+    <div class="container">
+        <h2>O impacto da sua ajuda</h2>
+        <p>Veja como sua contribuição mensal transforma as vidas atendidas pela associação.</p>
+        <div class="impacto-grid">
+            <div class="impacto-item">
+                <div class="impacto-valor">R$ 10</div>
+                <div class="impacto-desc">Custeia materiais escolares e pedagógicos para uma criança durante um mês.</div>
+            </div>
+            <div class="impacto-item">
+                <div class="impacto-valor">R$ 25</div>
+                <div class="impacto-desc">Garante suprimentos para rodas de acolhimento e lanche nas reuniões.</div>
+            </div>
+            <div class="impacto-item">
+                <div class="impacto-valor">R$ 50</div>
+                <div class="impacto-desc">Financia material lúdico para oficinas de arteterapia.</div>
+            </div>
+            <div class="impacto-item">
+                <div class="impacto-valor">R$ 100</div>
+                <div class="impacto-desc">Apoia as sessões de orientação jurídica e assistência social familiar.</div>
+            </div>
+            <div class="impacto-item">
+                <div class="impacto-valor">R$ 200</div>
+                <div class="impacto-desc">Subsidia a contratação de profissionais para palestras de conscientização.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TRANSIÇÃO -->
+<div id="transicao-footer"></div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-col" id="footer-logo">
+            <a href="index.html" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                <img src="imagens/simbolo_infinito.png" alt="GAIARB Logo" style="height: 38px; width: auto; object-fit: contain;">
+                <span style="font-family:'Lora',sans-serif;font-weight:700;font-size:22px;color:var(--accent);">GAIARB</span>
+            </a>
+            <p>Juntos por inclusão, respeito e<br>qualidade de vida.<br><br>&copy; 2025 GAIARB.<br>Todos os direitos reservados.</p>
+        </div>
+        <div class="footer-col">
+            <h3>Navegação</h3>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="sobre.html">Sobre Nós</a></li>
+                <li><a href="equipe.html">Nossa Equipe</a></li>
+                <li><a href="doe.html">Doações</a></li>
+                <li><a href="voluntario.html">Seja Voluntário</a></li>
+                <li><a href="admin.html">Painel Admin</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h3>Contato</h3>
+            <p>Email: contato@gaiarb.org<br><br>WhatsApp: +55 21 99999-9999<br><br>Localização: Rio Bonito – RJ</p>
+        </div>
+        <div class="footer-col">
+            <h3>Siga-nos</h3>
+            <div class="footer-social">
+                <a href="https://www.instagram.com/gaiarb_rj/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="white" stroke-width="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="white" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" stroke-width="2"/></svg>
+                </a>
+                <a href="https://www.facebook.com/gaiarb.rio.bonito" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                </a>
+                <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.114.549 4.1 1.51 5.833L.057 23.776a.5.5 0 0 0 .614.639l6.044-1.45A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.872 0-3.627-.484-5.158-1.334l-.366-.213-3.795.912.946-3.694-.234-.381A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>Desenvolvido pelo Grupo GAIARB &nbsp;|&nbsp; Projeto Extensionista – Sistemas de Informação</p>
+    </div>
+</footer>
+
+<script src="script.js?v=1" defer></script>
+</body>
+</html>

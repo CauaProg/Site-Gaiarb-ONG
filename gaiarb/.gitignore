@@ -1,0 +1,14 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local SQLite databases
+*.db
+gaiarb.db
+
+# Environments and secrets
+.env
+venv/
+env/
+.venv/

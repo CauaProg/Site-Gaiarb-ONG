@@ -1,0 +1,505 @@
+/* ═══════════════════════════════════════════════
+   GAIARB – doe.css (Organic NGO Redesign)
+   ═══════════════════════════════════════════════ */
+
+/* ── HERO SECTION ───────────────────────────────── */
+.doe-hero {
+    padding: 80px 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+}
+
+.doe-hero .container {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.doe-hero-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.doe-hero-texto h1 {
+    font-family: 'Lora', serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 20px;
+}
+
+.doe-hero-texto h1 span {
+    color: var(--secondary);
+}
+
+.doe-hero-texto p {
+    font-size: 16px;
+    color: var(--text-light);
+    line-height: 1.65;
+    margin-bottom: 32px;
+}
+
+.doe-hero-badges {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.doe-hero-badges .badge {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.doe-hero-visual {
+    display: flex;
+    justify-content: center;
+}
+
+.doe-card-hero {
+    background: var(--white);
+    padding: 40px;
+    border: 1px solid var(--border);
+    text-align: center;
+    max-width: 340px;
+}
+
+.doe-card-hero .icon-container {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary);
+}
+
+.doe-card-hero h3 {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+}
+
+.doe-card-hero p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── ÁREA DE DOAÇÃO DIRETA ─────────────────────── */
+.doe-dashboard-section {
+    padding: 80px 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+}
+
+.doe-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 50px;
+    align-items: start;
+}
+
+.doe-panel-input, .doe-panel-output {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 40px;
+}
+
+.doe-tagline {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--secondary);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.doe-title {
+    font-family: 'Lora', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+}
+
+.doe-desc {
+    font-size: 15px;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.doe-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.doe-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.doe-field-input {
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.2s ease;
+    background: #fdfdfb;
+}
+
+.doe-field-input:focus {
+    border-color: var(--primary);
+    background: var(--white);
+}
+
+.doe-tabs-nav {
+    display: flex;
+    gap: 1px;
+    background: var(--border);
+    margin-bottom: 30px;
+    padding: 1px;
+}
+
+.doe-tab-btn {
+    flex: 1;
+    background: #f8f7f3;
+    border: none;
+    padding: 14px;
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-light);
+    text-align: center;
+}
+
+.doe-tab-btn:hover {
+    color: var(--text);
+    background: #f1ede5;
+}
+
+.doe-tab-btn.active {
+    background: var(--white);
+    color: var(--primary);
+}
+
+.doe-tab-content {
+    display: none;
+}
+
+.doe-tab-content.active {
+    display: block;
+}
+
+/* PIX Output Styling */
+.pix-output-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pix-qr-container {
+    background: #fbfaf6;
+    border: 1px solid var(--border);
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 236px;
+    height: 236px;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+}
+
+.pix-qr-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pix-placeholder-text {
+    font-size: 12px;
+    color: var(--text-light);
+    line-height: 1.5;
+    text-align: center;
+}
+
+.pix-details {
+    width: 100%;
+}
+
+.pix-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.pix-chave-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    background: #fdfcf9;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    transition: border-color 0.2s ease;
+}
+
+.pix-chave-box:hover {
+    border-color: var(--secondary);
+}
+
+.copiar-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--secondary);
+    text-transform: uppercase;
+}
+
+.pix-instructions {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Card details form */
+.cartao-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-subtitle {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 24px;
+}
+
+.form-row {
+    margin-bottom: 16px;
+}
+
+.form-row.split-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* Boleto Styling */
+.boleto-output {
+    display: flex;
+    flex-direction: column;
+}
+
+.boleto-info-text {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+/* ── OUTRAS FORMAS ────────────────────────────── */
+.formas-section {
+    padding: 80px 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+}
+
+.formas-section h2 {
+    font-family: 'Lora', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 56px;
+}
+
+.formas-doe {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.forma-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 40px 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.forma-card h3 {
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.forma-card p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.info-chave {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--secondary);
+    background: var(--primary-light);
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px dashed var(--secondary);
+    transition: all 0.2s ease;
+}
+
+.info-chave:hover {
+    background: #fdf5f2;
+}
+
+/* ── IMPACTO ──────────────────────────────────── */
+.impacto-section {
+    padding: 80px 0;
+    background: var(--white);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.impacto-section h2 {
+    font-family: 'Lora', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+
+.impacto-section > p {
+    font-size: 16px;
+    color: var(--text-light);
+    margin-bottom: 56px;
+}
+
+.impacto-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+.impacto-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 30px 20px;
+}
+
+.impacto-item:hover {
+    background: var(--primary-light);
+}
+
+.impacto-valor {
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.impacto-desc {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+/* ── RESPONSIVE ────────────────────────────────── */
+@media screen and (max-width: 992px) {
+    .doe-hero .container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+    
+    .doe-hero-texto {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .doe-hero-badges {
+        justify-content: center;
+    }
+
+    .doe-dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .formas-doe {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    
+    .forma-card {
+        max-width: 450px;
+        margin: 0 auto;
+        width: 100%;
+    }
+    
+    .impacto-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .impacto-item:last-child {
+        grid-column: span 2;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .doe-hero-texto h1 { font-size: 32px; }
+    .doe-dashboard-section { padding: 40px 0; }
+    .doe-panel-input, .doe-panel-output { padding: 24px; }
+    .doe-title { font-size: 26px; }
+    .formas-section h2, .impacto-section h2 { font-size: 28px; }
+    
+    .impacto-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .impacto-item:last-child {
+        grid-column: span 1;
+    }
+}

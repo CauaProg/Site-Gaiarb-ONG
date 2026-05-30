@@ -1,0 +1,259 @@
+/* ═══════════════════════════════════════════════
+   GAIARB – sobre.css (Organic NGO Redesign)
+   ═══════════════════════════════════════════════ */
+
+/* ── HISTÓRIA & ATUAÇÃO SECTIONS ────────────────── */
+.about-section {
+    padding: 80px 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+}
+
+.about-section.alternate-bg {
+    background: var(--bg);
+}
+
+.about-row {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.about-row.reverse {
+    grid-template-columns: 0.9fr 1.1fr;
+}
+
+.about-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.sub-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+    background: var(--primary-light);
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+}
+
+.about-text h1 {
+    font-family: 'Lora', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 24px;
+}
+
+.about-text p {
+    font-size: 16px;
+    color: var(--text-light);
+    line-height: 1.75;
+    margin-bottom: 20px;
+}
+
+.about-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.about-img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 0.4s ease;
+}
+
+.about-image-wrapper:hover .about-img {
+    transform: scale(1.02);
+}
+
+/* ── MISSÃO VISÃO VALORES ──────────────────────── */
+.mvv-section {
+    padding: 80px 0;
+    background: var(--white);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.mvv-section h2 {
+    font-family: 'Lora', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.mvv-section > p {
+    font-size: 16px;
+    color: var(--text-light);
+    margin-bottom: 50px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mvv-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.mvv-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 40px 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mvv-card .card-icon-container {
+    width: 64px;
+    height: 64px;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.mvv-card:nth-child(2) .card-icon-container {
+    color: var(--secondary);
+}
+
+.mvv-card:nth-child(3) .card-icon-container {
+    color: var(--accent);
+}
+
+.mvv-card h3 {
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.mvv-card p {
+    font-size: 15px;
+    color: var(--text-light);
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* ── VALORES EM PRÁTICA ───────────────────────── */
+.valores-section {
+    padding: 80px 0;
+    background: var(--bg);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.valores-section h2 {
+    font-family: 'Lora', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 48px;
+}
+
+.valores-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.valor-tag {
+    background: var(--white);
+    border: 1px solid var(--border);
+    color: var(--text-light);
+    padding: 12px 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.valor-tag:hover {
+    border-color: var(--secondary);
+    color: var(--secondary);
+    background: var(--primary-light);
+}
+
+/* ── RESPONSIVO ────────────────────────────────── */
+@media screen and (max-width: 992px) {
+    .about-section {
+        padding: 60px 0;
+    }
+    
+    .about-row, .about-row.reverse {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+    
+    .about-row.reverse .about-image-wrapper {
+        order: -1;
+    }
+    
+    .about-text {
+        align-items: center;
+    }
+    
+    .about-text h1 {
+        font-size: 30px;
+    }
+    
+    .about-image-wrapper {
+        height: 280px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .mvv-section, .valores-section {
+        padding: 60px 0;
+    }
+    
+    .mvv-section h2, .valores-section h2 {
+        font-size: 30px;
+    }
+    
+    .mvv-cards {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    
+    .mvv-card {
+        max-width: 450px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .about-text h1 {
+        font-size: 24px;
+    }
+    
+    .about-image-wrapper {
+        height: 220px;
+    }
+    
+    .valor-tag {
+        font-size: 13px;
+        padding: 8px 16px;
+    }
+}

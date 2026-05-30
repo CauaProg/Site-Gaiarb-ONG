@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo – GAIARB</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="icon" type="image/x-icon" href="imagens/gaiarbLogoIcon.ico">
+</head>
+<body>
+
+<!-- LOGIN OVERLAY -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+        <img src="imagens/simbolo_infinito.png" alt="GAIARB" style="height: 48px; width: auto; margin-bottom: 20px; display: inline-block;">
+        <h2>Acesso Administrativo</h2>
+        <p>Insira suas credenciais para gerenciar o GAIARB</p>
+        
+        <div class="login-form">
+            <div class="form-grupo">
+                <label for="username">Usuário</label>
+                <input type="text" id="username" placeholder="Digite seu usuário" required>
+            </div>
+            <div class="form-grupo">
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="Digite sua senha" required>
+            </div>
+            <div class="error-mensagem" id="loginError">Usuário ou senha incorretos.</div>
+            <button class="btn-login" id="btnLogin" onclick="realizarLogin()">Entrar →</button>
+        </div>
+    </div>
+</div>
+
+<!-- HEADER (SIDEBAR & MAIN VIEW WRAPPER) -->
+<div class="admin-container" id="adminContainer" style="display: none;">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-header">
+            <img src="imagens/simbolo_infinito.png" alt="GAIARB Logo" style="height: 32px; width: auto; object-fit: contain;">
+            <span style="font-family:'Lora',serif;font-weight:700;font-size:18px;color:var(--text-main);">GAIARB Admin</span>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <button class="menu-btn ativo" onclick="switchSection('dashboard')">
+                Painel Geral
+            </button>
+            <button class="menu-btn" onclick="switchSection('voluntarios')">
+                Voluntários
+            </button>
+            <button class="menu-btn" onclick="switchSection('doacoes')">
+                Doações Recentes
+            </button>
+            <button class="menu-btn logout" onclick="realizarLogout()">
+                Sair
+            </button>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <p>&copy; 2026 GAIARB. <br>Banco de Dados SQL</p>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="admin-main">
+        <!-- TOP NAV -->
+        <header class="admin-header">
+            <div>
+                <h1 id="welcomeUser">Olá, Administrador</h1>
+                <p>Gerenciamento dinâmico de dados em tempo real</p>
+            </div>
+            <div class="header-status">
+                <span class="status-indicator"></span>
+                <span>Conectado ao SQLite</span>
+            </div>
+        </header>
+
+        <!-- SECTION: DASHBOARD -->
+        <section id="sec-dashboard" class="admin-section active">
+            <!-- METRICS GRID -->
+            <div class="metrics-grid">
+                <div class="metric-card card-purple">
+                    <div class="metric-info">
+                        <h3>Total Voluntários</h3>
+                        <span class="metric-number" id="stat-total-vol">0</span>
+                    </div>
+                </div>
+                <div class="metric-card card-green">
+                    <div class="metric-info">
+                        <h3>Arrecadado (PIX)</h3>
+                        <span class="metric-number" id="stat-total-doacoes">R$ 0,00</span>
+                    </div>
+                </div>
+                <div class="metric-card card-orange">
+                    <div class="metric-info">
+                        <h3>Qtd. de Doações</h3>
+                        <span class="metric-number" id="stat-qtd-doacoes">0</span>
+                    </div>
+                </div>
+                <div class="metric-card card-pink">
+                    <div class="metric-info">
+                        <h3>Área em Destaque</h3>
+                        <span class="metric-number" id="stat-top-area" style="font-size: 20px;">Nenhuma</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOUBLE PANEL (RECENT VOLUNTEERS & AREA CHART) -->
+            <div class="dashboard-panels">
+                <div class="panel list-panel">
+                    <h2>Novos Voluntários</h2>
+                    <div class="tabela-scroll">
+                        <table class="admin-tabela">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Área</th>
+                                    <th>WhatsApp</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-recent-voluntarios">
+                                <tr>
+                                    <td colspan="3" class="text-center">Nenhum voluntário cadastrado.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="panel distribution-panel">
+                    <h2>Demandas por Área</h2>
+                    <div class="dist-list" id="area-distribution-list">
+                        <!-- Filled dynamically -->
+                        <div class="empty-dist">Sem dados para exibir</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: VOLUNTEERS -->
+        <section id="sec-voluntarios" class="admin-section">
+            <div class="panel full-panel">
+                <div class="panel-header">
+                    <h2>Inscrições de Voluntários</h2>
+                    <div class="busca-wrap">
+                        <input type="text" id="inputBuscaVol" placeholder="🔍 Buscar por nome ou e-mail..." oninput="filtrarVoluntarios()">
+                        <select id="selectFiltroArea" onchange="filtrarVoluntarios()">
+                            <option value="">Todas as Áreas</option>
+                            <option value="Psicologia / Saúde Mental">Psicologia / Saúde Mental</option>
+                            <option value="Educação / Pedagogia">Educação / Pedagogia</option>
+                            <option value="Comunicação / Marketing">Comunicação / Marketing</option>
+                            <option value="Tecnologia">Tecnologia</option>
+                            <option value="Artes e Atividades Criativas">Artes e Atividades Criativas</option>
+                            <option value="Organização de Eventos">Organização de Eventos</option>
+                            <option value="Transporte / Logística">Transporte / Logística</option>
+                            <option value="Apoio Administrativo">Apoio Administrativo</option>
+                            <option value="Outra área">Outra área</option>
+                        </select>
+                        <select id="selectFiltroStatus" onchange="filtrarVoluntarios()">
+                            <option value="">Todos os Status</option>
+                            <option value="Pendente">Pendentes</option>
+                            <option value="Aprovado">Aprovados</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="tabela-scroll">
+                    <table class="admin-tabela">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>WhatsApp</th>
+                                <th>Área</th>
+                                <th>Disponibilidade</th>
+                                <th>Mensagem</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                                <th>Data Cadastro</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-all-voluntarios">
+                            <!-- Filled dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: DONATIONS -->
+        <section id="sec-doacoes" class="admin-section">
+            <div class="panel full-panel">
+                <div class="panel-header">
+                    <h2>Histórico de Doações</h2>
+                </div>
+                <div class="tabela-scroll">
+                    <table class="admin-tabela">
+                        <thead>
+                            <tr>
+                                <th>ID Transação</th>
+                                <th>Valor</th>
+                                <th>Método</th>
+                                <th>Status</th>
+                                <th>Data / Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-all-doacoes">
+                            <!-- Filled dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- JAVASCRIPT ADMIN PANEL -->
+<script>
+    const API_URL = window.location.protocol === 'file:' ? 'http://127.0.0.1:8000' : ''; // Supporting file:// and http:// protocols
+    let token = localStorage.getItem('gaiarb_admin_token') || null;
+    let cachedVolunteers = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+        if (token) {
+            exibirPainel();
+        } else {
+            document.getElementById('loginOverlay').classList.add('visivel');
+        }
+    });
+
+    function realizarLogin() {
+        const userEl = document.getElementById('username');
+        const passEl = document.getElementById('password');
+        const errorEl = document.getElementById('loginError');
+        const btnLogin = document.getElementById('btnLogin');
+
+        errorEl.classList.remove('visivel');
+        
+        const username = userEl.value.trim();
+        const password = passEl.value.trim();
+
+        if (!username || !password) return;
+
+        btnLogin.disabled = true;
+        btnLogin.textContent = 'Autenticando...';
+
+        fetch(API_URL + '/api/admin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Não autorizado');
+            return res.json();
+        })
+        .then(data => {
+            if (data.success && data.token) {
+                token = data.token;
+                localStorage.setItem('gaiarb_admin_token', token);
+                localStorage.setItem('gaiarb_admin_name', data.admin.nome);
+                
+                exibirPainel();
+                // Clear fields
+                userEl.value = '';
+                passEl.value = '';
+            }
+        })
+        .catch(err => {
+            errorEl.classList.add('visivel');
+        })
+        .finally(() => {
+            btnLogin.disabled = false;
+            btnLogin.textContent = 'Entrar →';
+        });
+    }
+
+    function realizarLogout() {
+        token = null;
+        localStorage.removeItem('gaiarb_admin_token');
+        localStorage.removeItem('gaiarb_admin_name');
+        
+        document.getElementById('adminContainer').style.display = 'none';
+        document.getElementById('loginOverlay').classList.add('visivel');
+    }
+
+    function exibirPainel() {
+        document.getElementById('loginOverlay').classList.remove('visivel');
+        document.getElementById('adminContainer').style.display = 'flex';
+        
+        const adminName = localStorage.getItem('gaiarb_admin_name') || 'Administrador';
+        document.getElementById('welcomeUser').textContent = `Olá, ${adminName}`;
+
+        carregarDados();
+    }
+
+    function switchSection(secId) {
+        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('ativo'));
+        
+        document.getElementById(`sec-${secId}`).classList.add('active');
+        
+        // Find corresponding button
+        const clickedBtn = Array.from(document.querySelectorAll('.menu-btn')).find(b => b.textContent.includes(secId === 'dashboard' ? 'Painel Geral' : secId === 'voluntarios' ? 'Voluntários' : 'Doações'));
+        if (clickedBtn) clickedBtn.classList.add('ativo');
+    }
+
+    function carregarDados() {
+        if (!token) return;
+
+        // Headers object
+        const headers = { 'Authorization': `Bearer ${token}` };
+
+        // 1. Load Stats
+        fetch(API_URL + '/api/admin/stats', { headers })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) throw new Error(data.error);
+            
+            document.getElementById('stat-total-vol').textContent = data.voluntarios_qtd;
+            document.getElementById('stat-qtd-doacoes').textContent = data.doacoes_qtd;
+            document.getElementById('stat-total-doacoes').textContent = data.doacoes_valor.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL"
+            });
+
+            // Set Top Area
+            if (data.areas_dist && data.areas_dist.length > 0) {
+                document.getElementById('stat-top-area').textContent = data.areas_dist[0].area.split(' ')[0]; // short name
+            } else {
+                document.getElementById('stat-top-area').textContent = 'Nenhuma';
+            }
+
+            // Fill Area Distribution UI
+            const distWrap = document.getElementById('area-distribution-list');
+            distWrap.innerHTML = '';
+            
+            if (data.areas_dist && data.areas_dist.length > 0) {
+                const total = data.voluntarios_qtd || 1;
+                data.areas_dist.forEach(item => {
+                    const pct = Math.round((item.quantidade / total) * 100);
+                    distWrap.innerHTML += `
+                        <div class="dist-item">
+                            <div class="dist-header">
+                                <span class="dist-name">${item.area}</span>
+                                <span class="dist-value">${item.quantidade} (${pct}%)</span>
+                            </div>
+                            <div class="dist-bar-bg">
+                                <div class="dist-bar" style="width: ${pct}%"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                distWrap.innerHTML = '<div class="empty-dist">Nenhum voluntário cadastrado ainda.</div>';
+            }
+        })
+        .catch(err => {
+            console.error("Erro ao carregar stats:", err);
+            realizarLogout();
+        });
+
+        // 2. Load Volunteers
+        fetch(API_URL + '/api/admin/voluntarios', { headers })
+        .then(res => res.json())
+        .then(data => {
+            cachedVolunteers = data;
+            renderVolunteers(data);
+            
+            // Render short list for Dashboard
+            const tblRecent = document.getElementById('tbl-recent-voluntarios');
+            tblRecent.innerHTML = '';
+            if (data && data.length > 0) {
+                data.slice(0, 5).forEach(v => {
+                    tblRecent.innerHTML += `
+                        <tr>
+                            <td><strong>${v.nome}</strong></td>
+                            <td><span class="cargo-tag">${v.area.split('/')[0].trim()}</span></td>
+                            <td>${v.whatsapp}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                tblRecent.innerHTML = '<tr><td colspan="3" class="text-center">Nenhum voluntário cadastrado.</td></tr>';
+            }
+        })
+        .catch(err => console.error("Erro ao carregar voluntários:", err));
+
+        // 3. Load Donations
+        fetch(API_URL + '/api/admin/doacoes', { headers })
+        .then(res => res.json())
+        .then(data => {
+            const tbl = document.getElementById('tbl-all-doacoes');
+            tbl.innerHTML = '';
+            
+            if (data && data.length > 0) {
+                data.forEach(d => {
+                    const formattedVal = d.valor.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL"
+                    });
+                    const formattedDate = new Date(d.data_doacao).toLocaleString("pt-BR");
+                    const statusClass = d.status === 'Pendente' ? 'status-pendente' : 'status-sucesso';
+                    
+                    tbl.innerHTML += `
+                        <tr>
+                            <td>#${d.id}</td>
+                            <td><strong style="color:var(--secondary)">${formattedVal}</strong></td>
+                            <td>💳 ${d.tipo}</td>
+                            <td><span class="badge-status ${statusClass}">${d.status}</span></td>
+                            <td>${formattedDate}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                tbl.innerHTML = '<tr><td colspan="5" class="text-center">Nenhuma doação registrada ainda.</td></tr>';
+            }
+        })
+        .catch(err => console.error("Erro ao carregar doações:", err));
+    }
+
+    function renderVolunteers(data) {
+        const tbl = document.getElementById('tbl-all-voluntarios');
+        tbl.innerHTML = '';
+        
+        if (data && data.length > 0) {
+            data.forEach(v => {
+                const date = new Date(v.data_cadastro).toLocaleString("pt-BR");
+                const statusClass = (v.status || 'Pendente') === 'Pendente' ? 'status-pendente' : 'status-sucesso';
+                const statusText = v.status || 'Pendente';
+                
+                let botoesAcao = '';
+                if (statusText === 'Pendente') {
+                    botoesAcao = `
+                        <button class="btn-acao btn-aprovar" onclick="aprovarVoluntario(${v.id})">Aprovar</button>
+                        <button class="btn-acao btn-recusar" onclick="recusarVoluntario(${v.id})">Recusar</button>
+                    `;
+                } else {
+                    botoesAcao = `
+                        <button class="btn-acao btn-recusar" onclick="recusarVoluntario(${v.id})">Recusar</button>
+                    `;
+                }
+
+                tbl.innerHTML += `
+                    <tr>
+                        <td><strong>${v.nome}</strong></td>
+                        <td>${v.email}</td>
+                        <td><a href="https://wa.me/${v.whatsapp.replace(/\D/g, '')}" target="_blank" style="color:var(--primary);text-decoration:none;">💬 ${v.whatsapp}</a></td>
+                        <td><span class="cargo-tag">${v.area}</span></td>
+                        <td>⏰ ${v.disponibilidade}</td>
+                        <td><div class="msg-box" title="${v.mensagem || ''}">${v.mensagem || '<i>Sem mensagem</i>'}</div></td>
+                        <td><span class="badge-status ${statusClass}">${statusText}</span></td>
+                        <td><div style="display: flex; gap: 4px;">${botoesAcao}</div></td>
+                        <td>${date}</td>
+                    </tr>
+                `;
+            });
+        } else {
+            tbl.innerHTML = '<tr><td colspan="9" class="text-center">Nenhum voluntário atende aos filtros aplicados.</td></tr>';
+        }
+    }
+
+    function filtrarVoluntarios() {
+        const busca = document.getElementById('inputBuscaVol').value.toLowerCase().trim();
+        const areaFiltro = document.getElementById('selectFiltroArea').value;
+        const statusFiltro = document.getElementById('selectFiltroStatus').value;
+        
+        const filtrados = cachedVolunteers.filter(v => {
+            const matchesSearch = v.nome.toLowerCase().includes(busca) || v.email.toLowerCase().includes(busca);
+            const matchesArea = areaFiltro === '' || v.area === areaFiltro;
+            const matchesStatus = statusFiltro === '' || (v.status || 'Pendente') === statusFiltro;
+            return matchesSearch && matchesArea && matchesStatus;
+        });
+        
+        renderVolunteers(filtrados);
+    }
+
+    function aprovarVoluntario(id) {
+        if (!confirm('Deseja realmente aprovar este voluntário?')) return;
+        fetch(API_URL + '/api/admin/voluntarios/aprovar', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ id })
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Falha na resposta do servidor');
+            return res.json();
+        })
+        .then(data => {
+            if (data.success) {
+                carregarDados();
+            } else {
+                alert('Erro ao aprovar voluntário: ' + (data.error || 'Erro desconhecido'));
+            }
+        })
+        .catch(err => {
+            console.error('Erro ao aprovar:', err);
+            alert('Erro de rede ou permissão ao aprovar voluntário.');
+        });
+    }
+
+    function recusarVoluntario(id) {
+        if (!confirm('Deseja realmente recusar e excluir este registro? Esta ação não pode ser desfeita.')) return;
+        fetch(API_URL + '/api/admin/voluntarios/recusar', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ id })
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Falha na resposta do servidor');
+            return res.json();
+        })
+        .then(data => {
+            if (data.success) {
+                carregarDados();
+            } else {
+                alert('Erro ao recusar voluntário: ' + (data.error || 'Erro desconhecido'));
+            }
+        })
+        .catch(err => {
+            console.error('Erro ao recusar:', err);
+            alert('Erro de rede ou permissão ao recusar voluntário.');
+        });
+    }
+</script>
+<script src="script.js" defer></script>
+</body>
+</html>

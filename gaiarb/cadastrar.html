@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Voluntário – GAIARB</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="icon" type="image/x-icon" href="imagens/gaiarbLogoIcon.ico">
+    <style>
+        .login-card-container {
+            max-width: 550px;
+        }
+        .success-box {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+            animation: fadeIn 0.4s ease;
+        }
+        .success-box svg {
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        .success-box h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        .success-box p {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <a href="index.html" id="logo-svg">
+        <img src="imagens/simbolo_infinito.png" alt="GAIARB Logo" style="height: 38px; width: auto; object-fit: contain;">
+        <span>GAIARB</span>
+    </a>
+    <div class="alllinks">
+        <a href="index.html">     <div class="linkshead">Início</div>                   </a>
+        <a href="sobre.html">     <div class="linkshead">Sobre</div>                    </a>
+        <a href="equipe.html">    <div class="linkshead">Nossa Equipe</div>             </a>
+        <a href="doe.html">       <div class="linkshead">Doações</div>                  </a>
+        <a href="voluntario.html"><div class="linkshead">Voluntário</div>        </a>
+        <a href="login.html">     <div class="linkshead btn-entrar active">Entrar</div> </a>
+        <a href="doe.html">       <div class="linkshead btn-doe">Doe agora →</div>      </a>
+    </div>
+</div>
+
+<!-- MAIN CONTENT WRAPPER -->
+<div class="login-wrapper">
+
+    <div class="login-card-container">
+        <div class="login-body">
+            
+            <!-- Registration Form Section -->
+            <div id="registerFormWrap">
+                <h2>Faça seu Cadastro</h2>
+                <p>Preencha seus dados cadastrais para solicitar sua inscrição voluntária.</p>
+                
+                <div class="input-group">
+                    <label for="regNome">Nome Completo</label>
+                    <input type="text" id="regNome" placeholder="Seu nome completo" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="regEmail">E-mail</label>
+                    <input type="email" id="regEmail" placeholder="exemplo@email.com" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="regWhatsapp">WhatsApp / Celular</label>
+                    <input type="tel" id="regWhatsapp" placeholder="(21) 99999-0000" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="regArea">Área de Interesse</label>
+                    <select id="regArea" required>
+                        <option value="">Selecione uma área...</option>
+                        <option>Psicologia / Saúde Mental</option>
+                        <option>Educação / Pedagogia</option>
+                        <option>Comunicação / Marketing</option>
+                        <option>Tecnologia / Desenvolvimento</option>
+                        <option>Artes e Oficinas Criativas</option>
+                        <option>Organização de Eventos</option>
+                        <option>Logística e Transporte</option>
+                        <option>Apoio Administrativo</option>
+                        <option>Outra área</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="regDisp">Disponibilidade de Tempo</label>
+                    <select id="regDisp" required>
+                        <option value="">Selecione sua disponibilidade...</option>
+                        <option>Fins de semana</option>
+                        <option>Dias úteis – Turno da Manhã</option>
+                        <option>Dias úteis – Turno da Tarde</option>
+                        <option>Dias úteis – Turno da Noite</option>
+                        <option>Horário Flexível</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="regMsg">Mensagem ou Observações (Opcional)</label>
+                    <textarea id="regMsg" rows="3" placeholder="Conte brevemente sobre você e por que gostaria de ajudar..."></textarea>
+                </div>
+                
+                <div class="error-msg" id="regError"></div>
+                
+                <button class="btn-submit btn-purple" onclick="submitRegisterForm()">Cadastrar e Enviar →</button>
+                
+                <div style="margin-top: 25px; text-align: center; font-size: 14px; color: var(--text-light);">
+                    Já possui cadastro? <a href="login.html" style="color: var(--primary); font-weight: 700; text-decoration: none;">Faça login aqui</a>
+                </div>
+            </div>
+
+            <!-- Success Section -->
+            <div class="success-box" id="registerSuccessWrap">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <h3>Cadastro Realizado!</h3>
+                <p>Sua inscrição de voluntário foi enviada com sucesso ao nosso banco de dados. Agora você já pode acessar o Portal do Voluntário utilizando seu e-mail e WhatsApp.<br><br>Redirecionando para o login...</p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-col" id="footer-logo">
+            <a href="index.html" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                <img src="imagens/simbolo_infinito.png" alt="GAIARB Logo" style="height: 38px; width: auto; object-fit: contain;">
+                <span style="font-family:'Lora',sans-serif;font-weight:700;font-size:22px;color:var(--accent);">GAIARB</span>
+            </a>
+            <p>Juntos por inclusão, respeito e<br>qualidade de vida.<br><br>&copy; 2025 GAIARB.<br>Todos os direitos reservados.</p>
+        </div>
+        <div class="footer-col">
+            <h3>Navegação</h3>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="sobre.html">Sobre Nós</a></li>
+                <li><a href="equipe.html">Nossa Equipe</a></li>
+                <li><a href="doe.html">Doações</a></li>
+                <li><a href="voluntario.html">Seja Voluntário</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h3>Contato</h3>
+            <p>Email: contato@gaiarb.org<br><br>Telefone: +55 21 99999-9999<br><br>Endereço: Rio Bonito – RJ</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>Desenvolvido pelo Grupo GAIARB &nbsp;|&nbsp; Projeto Extensionista – Sistemas de Informação</p>
+    </div>
+</footer>
+
+<script>
+    const apiBase = window.location.protocol === 'file:' ? 'http://127.0.0.1:8000' : '';
+
+    async function submitRegisterForm() {
+        const nome = document.getElementById('regNome').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const whatsapp = document.getElementById('regWhatsapp').value.trim();
+        const area = document.getElementById('regArea').value.trim();
+        const disponibilidade = document.getElementById('regDisp').value.trim();
+        const mensagem = document.getElementById('regMsg').value.trim();
+        const errorDiv = document.getElementById('regError');
+        
+        errorDiv.textContent = '';
+        
+        if (!nome || !email || !whatsapp || !area || !disponibilidade) {
+            errorDiv.textContent = 'Por favor, preencha todos os campos obrigatórios.';
+            return;
+        }
+        
+        try {
+            const res = await fetch(apiBase + '/api/voluntarios', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, email, whatsapp, area, disponibilidade, mensagem })
+            });
+            const data = await res.json();
+            
+            if (res.ok && data.success) {
+                document.getElementById('registerFormWrap').style.display = 'none';
+                document.getElementById('registerSuccessWrap').style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 3500);
+            } else {
+                errorDiv.textContent = data.error || 'Erro ao realizar o cadastro. Tente novamente.';
+            }
+        } catch (e) {
+            errorDiv.textContent = 'Erro ao se conectar ao servidor.';
+        }
+    }
+</script>
+<script src="script.js" defer></script>
+</body>
+</html>
