@@ -42,6 +42,7 @@ def get_connection():
     if MYSQL_ACTIVE:
         return mysql.connector.connect(
             host=os.environ.get("DB_HOST", "localhost"),
+            port=int(os.environ.get("DB_PORT", 3306)),
             user=os.environ.get("DB_USER", "root"),
             password=os.environ.get("DB_PASSWORD", "[CONFIDENCIAL]"),
             database=os.environ.get("DB_NAME", "bd_teste_01")
@@ -88,6 +89,7 @@ def init_db():
             # Cloud DB setup: connect directly to database
             conn = mysql.connector.connect(
                 host=os.environ.get("DB_HOST"),
+                port=int(os.environ.get("DB_PORT", 3306)),
                 user=os.environ.get("DB_USER"),
                 password=os.environ.get("DB_PASSWORD"),
                 database=db_name
@@ -96,6 +98,7 @@ def init_db():
             # Local setup: try creating database first
             conn = mysql.connector.connect(
                 host=os.environ.get("DB_HOST", "localhost"),
+                port=int(os.environ.get("DB_PORT", 3306)),
                 user=os.environ.get("DB_USER", "root"),
                 password=os.environ.get("DB_PASSWORD", "[CONFIDENCIAL]")
             )
@@ -107,6 +110,7 @@ def init_db():
             # Connect to target database
             conn = mysql.connector.connect(
                 host=os.environ.get("DB_HOST", "localhost"),
+                port=int(os.environ.get("DB_PORT", 3306)),
                 user=os.environ.get("DB_USER", "root"),
                 password=os.environ.get("DB_PASSWORD", "[CONFIDENCIAL]"),
                 database=db_name
@@ -795,7 +799,8 @@ def home():
 def static_proxy(path):
     return send_from_directory('.', path)
 
+init_db()
+
 if __name__ == '__main__':
-    init_db()
     # Run server on port 8000
     app.run(host='0.0.0.0', port=8000, debug=True)
