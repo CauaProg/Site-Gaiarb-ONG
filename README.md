@@ -1,1 +1,65 @@
-Este trabalho apresenta o desenvolvimento de um sistema web para auxiliar a organização social Gaiarb, instituição que atua no acolhimento e apoio a mães atípicas e suas famílias. O sistema tem como objetivo facilitar o gerenciamento de doadores, o registro de doações e a organização das informações relacionadas aos apoiadores da instituição. A solução foi desenvolvida utilizando a linguagem Python com o framework Flask, integrada ao banco de dados MySQL, além das tecnologias HTML e CSS para a interface web. O sistema permite cadastrar doadores, consultar históricos de doações, atualizar informações e gerar relatórios simples, contribuindo para melhorar a comunicação com apoiadores e otimizar a captação de recursos da organização. Dessa forma, o projeto busca oferecer uma solução tecnológica eficiente para apoiar a gestão da instituição e reduzir dificuldades relacionadas à organização das informações e ao controle das doações. 
+ 🌱 GAIARB - Sistema de Gestão de Doadores
+
+ 📖 Sobre o Projeto
+
+O GAIARB é um sistema web desenvolvido para auxiliar a ONG GAIARB no gerenciamento de doadores e doações. O objetivo é facilitar a organização das informações, melhorar a comunicação com apoiadores e contribuir para a captação de recursos da instituição.
+
+A ONG atua no acolhimento e apoio a mães atípicas e suas famílias.
+
+---
+
+ 🎯 Objetivo
+
+Desenvolver uma plataforma para cadastrar doadores, registrar doações e consultar informações de forma rápida e organizada.
+
+---
+
+ 🚀 Funcionalidades
+
+ Cadastro de doadores
+ Registro de doações
+ Consulta de doadores
+ Histórico de doações
+
+---
+
+ 🛠 Tecnologias Utilizadas
+
+ Python
+ Flesk
+ MySQL
+ HTML
+ CSS
+ JavaSript
+ API Mercado Pago
+
+---
+
+ 📂 Estrutura do Sistema
+
+ Doador
+
+ Nome
+ Telefone/WhatsApp
+
+ Doação
+
+ Valor da doação
+ Data da doação
+
+
+---
+
+ 👨‍💻 Equipe
+
+ João Pedro Fialho Lisboa
+ Arthur Costa
+ Cauã Moraes
+ Gustavo Brotto
+ Davi Lima
+
+---
+
+ ❤️ Agradecimentos
+
+Agradecemos à ONG GAIARB pela parceria e pela oportunidade de desenvolver uma solução tecnológica que contribua para o apoio às mães atípicas e suas famílias.
