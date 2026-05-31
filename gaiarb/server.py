@@ -16,13 +16,19 @@ try:
     has_cors = True
 except ImportError:
     has_cors = False
-import mysql.connector
+
+try:
+    import psycopg2
+    from psycopg2.extras import RealDictCursor
+    has_postgres = True
+except ImportError:
+    has_postgres = False
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 if has_cors:
     CORS(app)
 
-MYSQL_ACTIVE = False
+POSTGRES_ACTIVE = False
 DB_FILE = 'gaiarb.db'
 
 def calculate_crc16(data: str) -> str:
@@ -37,26 +43,17 @@ def calculate_crc16(data: str) -> str:
     return f"{crc:04X}"
 
 def get_connection():
-    if MYSQL_ACTIVE:
-        if os.environ.get("DB_NAME"):
-            # Banco na nuvem: conecta com SSL
-            return mysql.connector.connect(
+    if POSTGRES_ACTIVE:
+        connection_uri = os.environ.get("DATABASE_URL")
+        if connection_uri:
+            return psycopg2.connect(connection_uri)
+        else:
+            return psycopg2.connect(
                 host=os.environ.get("DB_HOST"),
-                port=int(os.environ.get("DB_PORT", 3306)),
+                port=int(os.environ.get("DB_PORT", 5432)),
                 user=os.environ.get("DB_USER"),
                 password=os.environ.get("DB_PASSWORD"),
-                database=os.environ.get("DB_NAME"),
-                ssl_verify_cert=False,
-                ssl_verify_identity=False
-            )
-        else:
-            # Setup local: sem SSL
-            return mysql.connector.connect(
-                host=os.environ.get("DB_HOST", "localhost"),
-                port=int(os.environ.get("DB_PORT", 3306)),
-                user=os.environ.get("DB_USER", "root"),
-                password=os.environ.get("DB_PASSWORD", "[CONFIDENCIAL]"),
-                database=os.environ.get("DB_NAME", "bd_teste_01")
+                database=os.environ.get("DB_NAME", "postgres")
             )
     else:
         conn = sqlite3.connect(DB_FILE)
@@ -67,22 +64,28 @@ def run_db_query(query, params=None):
     if params is None:
         params = ()
     
-    if MYSQL_ACTIVE:
+    is_insert = query.strip().upper().startswith('INSERT')
+    
+    if POSTGRES_ACTIVE:
         query = query.replace('?', '%s')
+        if is_insert and 'RETURNING' not in query.upper():
+            query = query.rstrip('; ') + " RETURNING id"
         
     conn = get_connection()
     try:
-        if MYSQL_ACTIVE:
-            cursor = conn.cursor(dictionary=True)
+        if POSTGRES_ACTIVE:
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
         else:
             cursor = conn.cursor()
             
         cursor.execute(query, params)
         if query.strip().upper().startswith('SELECT'):
             rows = cursor.fetchall()
-            if not MYSQL_ACTIVE:
-                return [dict(row) for row in rows]
-            return rows
+            return [dict(row) for row in rows]
+        elif POSTGRES_ACTIVE and is_insert:
+            inserted_id = cursor.fetchone()['id']
+            conn.commit()
+            return inserted_id
         else:
             conn.commit()
             return cursor.lastrowid
@@ -90,150 +93,126 @@ def run_db_query(query, params=None):
         conn.close()
 
 def init_db():
-    global MYSQL_ACTIVE
-    # 1. Tenta conexao com o MySQL
-    try:
-        db_name = os.environ.get("DB_NAME", "bd_teste_01")
-        print(f"Attempting to connect to MySQL database '{db_name}'...")
-        
-        if os.environ.get("DB_NAME"):
-            # Banco na nuvem: conecta diretamente com SSL
-            conn = mysql.connector.connect(
-                host=os.environ.get("DB_HOST"),
-                port=int(os.environ.get("DB_PORT", 3306)),
-                user=os.environ.get("DB_USER"),
-                password=os.environ.get("DB_PASSWORD"),
-                database=db_name,
-                ssl_verify_cert=False,
-                ssl_verify_identity=False
-            )
-        else:
-            # Setup local: tenta criar o banco se nao existir
-            conn = mysql.connector.connect(
-                host=os.environ.get("DB_HOST", "localhost"),
-                port=int(os.environ.get("DB_PORT", 3306)),
-                user=os.environ.get("DB_USER", "root"),
-                password=os.environ.get("DB_PASSWORD", "[CONFIDENCIAL]")
-            )
+    global POSTGRES_ACTIVE
+    # 1. Tenta conexao com o PostgreSQL
+    if not has_postgres:
+        print("PostgreSQL driver (psycopg2) not installed. Falling back to SQLite.")
+        POSTGRES_ACTIVE = False
+    else:
+        try:
+            print("Attempting to connect to PostgreSQL database...")
+            connection_uri = os.environ.get("DATABASE_URL")
+            if connection_uri:
+                conn = psycopg2.connect(connection_uri)
+            else:
+                conn = psycopg2.connect(
+                    host=os.environ.get("DB_HOST"),
+                    port=int(os.environ.get("DB_PORT", 5432)),
+                    user=os.environ.get("DB_USER"),
+                    password=os.environ.get("DB_PASSWORD"),
+                    database=os.environ.get("DB_NAME", "postgres")
+                )
             cursor = conn.cursor()
-            cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+            
+            # Cria tabela de administradores
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS admins (
+                    id SERIAL PRIMARY KEY,
+                    username VARCHAR(50) UNIQUE NOT NULL,
+                    password_hash VARCHAR(255) NOT NULL,
+                    nome VARCHAR(100) NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+            
+            # Cria tabela de voluntarios
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS voluntarios (
+                    id SERIAL PRIMARY KEY,
+                    nome VARCHAR(100) NOT NULL,
+                    email VARCHAR(100) NOT NULL,
+                    whatsapp VARCHAR(30) NOT NULL,
+                    area VARCHAR(100) NOT NULL,
+                    disponibilidade VARCHAR(100) NOT NULL,
+                    mensagem TEXT,
+                    status VARCHAR(20) DEFAULT 'Pendente',
+                    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+            
+            # Cria tabela de doacoes
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS doacoes (
+                    id SERIAL PRIMARY KEY,
+                    valor DECIMAL(10,2) NOT NULL,
+                    data_doacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    tipo VARCHAR(20) DEFAULT 'PIX',
+                    status VARCHAR(20) DEFAULT 'Pendente'
+                )
+            """)
+            
+            # Cria tabela da equipe
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS equipe (
+                    id SERIAL PRIMARY KEY,
+                    numero VARCHAR(10),
+                    nome VARCHAR(100) NOT NULL,
+                    cargo VARCHAR(100) NOT NULL,
+                    bio TEXT,
+                    ordem INTEGER DEFAULT 0
+                )
+            """)
+            
+            # Cria o admin padrao se a tabela estiver vazia
+            cursor.execute("SELECT COUNT(*) FROM admins")
+            if cursor.fetchone()[0] == 0:
+                cursor.execute("""
+                    INSERT INTO admins (username, password_hash, nome) 
+                    VALUES ('admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Administrador GAIARB')
+                """)
+                
+            # Cria o admin de teste se nao existir
+            cursor.execute("SELECT COUNT(*) FROM admins WHERE username = 'teste1'")
+            if cursor.fetchone()[0] == 0:
+                cursor.execute("""
+                    INSERT INTO admins (username, password_hash, nome) 
+                    VALUES ('teste1', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Administrador Teste')
+                """)
+                
+            # Cria o administrador adm se nao existir
+            cursor.execute("SELECT COUNT(*) FROM admins WHERE username = 'adm'")
+            if cursor.fetchone()[0] == 0:
+                cursor.execute("""
+                    INSERT INTO admins (username, password_hash, nome) 
+                    VALUES ('adm', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Administrador Adm')
+                """)
+                
+            # Preenche a equipe se estiver vazia
+            cursor.execute("SELECT COUNT(*) FROM equipe")
+            if cursor.fetchone()[0] == 0:
+                members = [
+                    ('01', 'Ayla de Cássia Franco Bragança', 'Presidente(a)', 'Fundadora do GAIARB, dedicou sua vida ao acolhimento. Lidera o projeto com amor e determinação.', 1),
+                    ('02', 'Daniele dos Santos Charré Duarte', 'Vice-Presidente(a)', 'Bio dela', 2),
+                    ('03', 'Danielle de Moraes Góis Diniz', 'Tesoureiro(a)', 'Bio dela', 3),
+                    ('04', 'Alan Macedo Santos', 'Tesoureiro Adjunto', 'Bio dele', 4),
+                    ('05', 'Renata Maçulo Quintanilha Pimentel', 'Secretário(a)', 'Bio dela', 5),
+                    ('06', 'Letícia da Silva Moreira Franco', 'Secretário Adjunto(a)', 'Bio dela', 6)
+                ]
+                for m in members:
+                    cursor.execute("""
+                        INSERT INTO equipe (numero, nome, cargo, bio, ordem) 
+                        VALUES (%s, %s, %s, %s, %s)
+                    """, m)
+            
             conn.commit()
             conn.close()
+            POSTGRES_ACTIVE = True
+            print("Successfully initialized and configured PostgreSQL via psycopg2!")
+            return
+        except Exception as e:
+            print(f"PostgreSQL initialization failed: {e}. Falling back to SQLite.")
+            POSTGRES_ACTIVE = False
             
-            # Conecta ao banco de dados
-            conn = mysql.connector.connect(
-                host=os.environ.get("DB_HOST", "localhost"),
-                port=int(os.environ.get("DB_PORT", 3306)),
-                user=os.environ.get("DB_USER", "root"),
-                password=os.environ.get("DB_PASSWORD", "[CONFIDENCIAL]"),
-                database=db_name
-            )
-        cursor = conn.cursor()
-        
-        # Cria tabela de administradores
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS admins (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                username VARCHAR(50) UNIQUE NOT NULL,
-                password_hash VARCHAR(255) NOT NULL,
-                nome VARCHAR(100) NOT NULL,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-            )
-        """)
-        
-        # Cria tabela de voluntarios
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS voluntarios (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                nome VARCHAR(100) NOT NULL,
-                email VARCHAR(100) NOT NULL,
-                whatsapp VARCHAR(30) NOT NULL,
-                area VARCHAR(100) NOT NULL,
-                disponibilidade VARCHAR(100) NOT NULL,
-                mensagem TEXT,
-                status VARCHAR(20) DEFAULT 'Pendente',
-                data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP
-            )
-        """)
-        # Garante que a coluna status existe no MySQL
-        try:
-            cursor.execute("ALTER TABLE voluntarios ADD COLUMN status VARCHAR(20) DEFAULT 'Pendente'")
-        except Exception:
-            pass
-        
-        # Cria tabela de doacoes
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS doacoes (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                valor DECIMAL(10,2) NOT NULL,
-                data_doacao DATETIME DEFAULT CURRENT_TIMESTAMP,
-                tipo VARCHAR(20) DEFAULT 'PIX',
-                status VARCHAR(20) DEFAULT 'Pendente'
-            )
-        """)
-        
-        # Cria tabela da equipe
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS equipe (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                numero VARCHAR(10),
-                nome VARCHAR(100) NOT NULL,
-                cargo VARCHAR(100) NOT NULL,
-                bio TEXT,
-                ordem INTEGER DEFAULT 0
-            )
-        """)
-        
-        # Cria o admin padrao se a tabela estiver vazia
-        cursor.execute("SELECT COUNT(*) FROM admins")
-        if cursor.fetchone()[0] == 0:
-            cursor.execute("""
-                INSERT INTO admins (username, password_hash, nome) 
-                VALUES ('admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Administrador GAIARB')
-            """)
-            
-        # Cria o admin de teste se nao existir
-        cursor.execute("SELECT COUNT(*) FROM admins WHERE username = 'teste1'")
-        if cursor.fetchone()[0] == 0:
-            cursor.execute("""
-                INSERT INTO admins (username, password_hash, nome) 
-                VALUES ('teste1', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Administrador Teste')
-            """)
-            
-        # Cria o administrador adm se nao existir
-        cursor.execute("SELECT COUNT(*) FROM admins WHERE username = 'adm'")
-        if cursor.fetchone()[0] == 0:
-            cursor.execute("""
-                INSERT INTO admins (username, password_hash, nome) 
-                VALUES ('adm', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Administrador Adm')
-            """)
-            
-        # Preenche a equipe se estiver vazia
-        cursor.execute("SELECT COUNT(*) FROM equipe")
-        if cursor.fetchone()[0] == 0:
-            members = [
-                ('01', 'Ayla de Cássia Franco Bragança', 'Presidente(a)', 'Fundadora do GAIARB, dedicou sua vida ao acolhimento. Lidera o projeto com amor e determinação.', 1),
-                ('02', 'Daniele dos Santos Charré Duarte', 'Vice-Presidente(a)', 'Bio dela', 2),
-                ('03', 'Danielle de Moraes Góis Diniz', 'Tesoureiro(a)', 'Bio dela', 3),
-                ('04', 'Alan Macedo Santos', 'Tesoureiro Adjunto', 'Bio dele', 4),
-                ('05', 'Renata Maçulo Quintanilha Pimentel', 'Secretário(a)', 'Bio dela', 5),
-                ('06', 'Letícia da Silva Moreira Franco', 'Secretário Adjunto(a)', 'Bio dela', 6)
-            ]
-            for m in members:
-                cursor.execute("""
-                    INSERT INTO equipe (numero, nome, cargo, bio, ordem) 
-                    VALUES (%s, %s, %s, %s, %s)
-                """, m)
-        
-        conn.commit()
-        conn.close()
-        MYSQL_ACTIVE = True
-        print("Successfully initialized and configured MySQL via mysql.connector!")
-        return
-    except Exception as e:
-        print(f"MySQL initialization failed: {e}. Falling back to SQLite.")
-        MYSQL_ACTIVE = False
-        
     # 2. Fallback para SQLite local
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
@@ -326,7 +305,7 @@ def init_db():
             
     conn.commit()
     conn.close()
-    MYSQL_ACTIVE = False
+    POSTGRES_ACTIVE = False
     print("Successfully initialized and configured local SQLite fallback!")
 
 # (Servico de arquivos estaticos movido para o final)
