@@ -1,6 +1,6 @@
- 🌱 GAIARB - Sistema de Gestão de Doadores
+  GAIARB - Sistema de Gestão de Doadores
 
- 📖 Sobre o Projeto
+  Sobre o Projeto
 
 O GAIARB é um sistema web desenvolvido para auxiliar a ONG GAIARB no gerenciamento de doadores e doações. O objetivo é facilitar a organização das informações, melhorar a comunicação com apoiadores e contribuir para a captação de recursos da instituição.
 
@@ -8,13 +8,13 @@ A ONG atua no acolhimento e apoio a mães atípicas e suas famílias.
 
 ---
 
- 🎯 Objetivo
+  Objetivo
 
 Desenvolver uma plataforma para cadastrar doadores, registrar doações e consultar informações de forma rápida e organizada.
 
 ---
 
- 🚀 Funcionalidades
+ Funcionalidades
 
  Cadastro de doadores
  Registro de doações
@@ -23,7 +23,7 @@ Desenvolver uma plataforma para cadastrar doadores, registrar doações e consul
 
 ---
 
- 🛠 Tecnologias Utilizadas
+  Tecnologias Utilizadas
 
  Python
  Flesk
@@ -35,7 +35,7 @@ Desenvolver uma plataforma para cadastrar doadores, registrar doações e consul
 
 ---
 
- 📂 Estrutura do Sistema
+  Estrutura do Sistema
 
  Doador
 
@@ -50,7 +50,7 @@ Desenvolver uma plataforma para cadastrar doadores, registrar doações e consul
 
 ---
 
- 👨‍💻 Equipe
+  Equipe
 
  João Pedro Fialho Lisboa
  Arthur Costa
@@ -60,6 +60,6 @@ Desenvolver uma plataforma para cadastrar doadores, registrar doações e consul
 
 ---
 
- ❤️ Agradecimentos
+  Agradecimentos
 
 Agradecemos à ONG GAIARB pela parceria e pela oportunidade de desenvolver uma solução tecnológica que contribua para o apoio às mães atípicas e suas famílias.
