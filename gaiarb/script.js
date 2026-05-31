@@ -500,7 +500,7 @@ function filtrar(btn, categoria) {
         }
     });
 
-    // 🔥 AQUI ESTÁ O SEGREDO (crescer quando filtrar)
+    
     if (visiveis <= 4) {
         grid.classList.add("expandido");
     } else {
