@@ -52,10 +52,10 @@ Desenvolver uma plataforma para cadastrar doadores, registrar doações e consul
 
   Equipe
 
- João Pedro Fialho Lisboa
- Arthur Costa
- Cauã Moraes
- Gustavo Brotto
+ João Pedro Fialho Lisboa,
+ Arthur Costa,
+ Cauã Moraes,
+ Gustavo Brotto e
  Davi Lima
 
 ---
