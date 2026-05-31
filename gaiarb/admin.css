@@ -2,15 +2,15 @@
 
 /* Configurações Globais */
 :root {
-    --bg-dark: #faf8f4; /* Fundo areia quente claro */
-    --bg-card: #ffffff; /* Base de cartão branca limpa */
-    --bg-hover: #f1f5f3; /* Destaque verde quente suave */
-    --text-main: #19201c; /* Cinza escuro floresta quente */
-    --text-muted: #56615b; /* Cinza oliva fosco */
-    --border-color: #e0ddd5; /* Borda suave quente */
-    --primary: #1d3d31; /* Verde floresta escuro */
-    --secondary: #be5338; /* Terracota / Ferrugem */
-    --accent: #d9a74a; /* Dourado quente */
+    --bg-dark: #faf8f4;
+    --bg-card: #ffffff;
+    --bg-hover: #f1f5f3;
+    --text-main: #19201c; 
+    --text-muted: #56615b;
+    --border-color: #e0ddd5;
+    --primary: #1d3d31; 
+    --secondary: #be5338; 
+    --accent: #d9a74a;
     --danger: #be5338;
 }
 
