@@ -1,9 +1,6 @@
-/* ═══════════════════════════════════════════════
-   GAIARB – doe.css (Organic NGO Redesign)
-   ═══════════════════════════════════════════════ */
+   /* GAIARB – doe.css (Organic NGO Redesign) */
 
-/* ── HERO SECTION ───────────────────────────────── */
-.doe-hero {
+/* .doe-hero { */
     padding: 80px 0;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
@@ -95,8 +92,7 @@
     margin: 0;
 }
 
-/* ── ÁREA DE DOAÇÃO DIRETA ─────────────────────── */
-.doe-dashboard-section {
+/* .doe-dashboard-section { */
     padding: 80px 0;
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -210,7 +206,7 @@
     display: block;
 }
 
-/* PIX Output Styling */
+/* Estilo da Saida do PIX */
 .pix-output-wrap {
     display: flex;
     flex-direction: column;
@@ -293,7 +289,7 @@
     text-align: center;
 }
 
-/* Card details form */
+/* Formulario de detalhes do cartao */
 .cartao-form {
     display: flex;
     flex-direction: column;
@@ -317,7 +313,7 @@
     gap: 16px;
 }
 
-/* Boleto Styling */
+/* Estilo do Boleto */
 .boleto-output {
     display: flex;
     flex-direction: column;
@@ -330,8 +326,7 @@
     margin-bottom: 24px;
 }
 
-/* ── OUTRAS FORMAS ────────────────────────────── */
-.formas-section {
+/* .formas-section { */
     padding: 80px 0;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
@@ -393,8 +388,7 @@
     background: #fdf5f2;
 }
 
-/* ── IMPACTO ──────────────────────────────────── */
-.impacto-section {
+/* .impacto-section { */
     padding: 80px 0;
     background: var(--white);
     text-align: center;
@@ -445,8 +439,7 @@
     line-height: 1.5;
 }
 
-/* ── RESPONSIVE ────────────────────────────────── */
-@media screen and (max-width: 992px) {
+/* @media screen and (max-width: 992px) { */
     .doe-hero .container {
         grid-template-columns: 1fr;
         gap: 40px;

@@ -1,18 +1,6 @@
-/* ═══════════════════════════════════════════════
-   GAIARB – admin.css (Organic NGO Redesign)
-   ═══════════════════════════════════════════════ */
+   /* GAIARB – admin.css (Organic NGO Redesign) */
 
-/* ── CONFIGURAÇÕES GLOBAIS ──────────────────────── */
-:root {
-    --bg-dark: #faf8f4; /* Warm sand light background */
-    --bg-card: #ffffff; /* Clean white card base */
-    --bg-hover: #f1f5f3; /* Soft warm green highlight */
-    --text-main: #19201c; /* Deep warm forest charcoal */
-    --text-muted: #56615b; /* Muted olive slate */
-    --border-color: #e0ddd5; /* Warm soft border */
-    --primary: #1d3d31; /* Deep forest green */
-    --secondary: #be5338; /* Terracotta / Rust */
-    --accent: #d9a74a; /* Warm gold */
+/* :root { */
     --danger: #be5338;
 }
 
@@ -26,8 +14,7 @@ body {
     min-height: 100vh;
 }
 
-/* ── LOGIN OVERLAY ──────────────────────────────── */
-.login-overlay {
+/* .login-overlay { */
     position: fixed;
     top: 0;
     left: 0;
@@ -140,16 +127,14 @@ body {
     border-color: var(--secondary);
 }
 
-/* ── LAYOUT CONTAINER ───────────────────────────── */
-.admin-container {
+/* .admin-container { */
     display: flex;
     min-height: 100vh;
 }
 
-/* ── SIDEBAR ────────────────────────────────────── */
-.admin-sidebar {
+/* .admin-sidebar { */
     width: 260px;
-    background: #141c18; /* Deep dark charcoal-green sidebar */
+    background: #141c18; /* Barra lateral cinza-escura esverdeada */
     border-right: 1px solid var(--border-color);
     padding: 30px 20px;
     display: flex;
@@ -221,8 +206,7 @@ body {
     line-height: 1.5;
 }
 
-/* ── MAIN CONTENT ───────────────────────────────── */
-.admin-main {
+/* .admin-main { */
     flex-grow: 1;
     padding: 40px;
     box-sizing: border-box;
@@ -267,8 +251,7 @@ body {
     border-radius: 50%;
 }
 
-/* ── METRICS GRID ───────────────────────────────── */
-.metrics-grid {
+/* .metrics-grid { */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
@@ -305,8 +288,7 @@ body {
     color: var(--primary);
 }
 
-/* ── SECTIONS & PANELS ──────────────────────────── */
-.admin-section {
+/* .admin-section { */
     display: none;
 }
 
@@ -366,8 +348,7 @@ body {
     border-color: var(--primary);
 }
 
-/* ── TABLES ─────────────────────────────────────── */
-.tabela-scroll {
+/* .tabela-scroll { */
     overflow-x: auto;
     width: 100%;
 }
@@ -444,8 +425,7 @@ body {
     text-align: center;
 }
 
-/* ── PROGRESS BARS (AREAS) ──────────────────────── */
-.dist-list {
+/* .dist-list { */
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -493,8 +473,7 @@ body {
     font-style: italic;
 }
 
-/* ── RESPONSIVE DESIGN ──────────────────────────── */
-@media (max-width: 960px) {
+/* @media (max-width: 960px) { */
     .dashboard-panels {
         grid-template-columns: 1fr;
     }

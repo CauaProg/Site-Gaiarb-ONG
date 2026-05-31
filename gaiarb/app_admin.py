@@ -1,7 +1,5 @@
-# ═══════════════════════════════════════════════
 # GAIARB – DESKTOP ADMIN CLIENT (TKINTER & API)
-# ═══════════════════════════════════════════════
-
+# 
 import tkinter as tk
 from tkinter import ttk, messagebox
 import requests
@@ -18,31 +16,30 @@ class GaiarbAdminApp:
         self.root.geometry("1000x650")
         self.root.configure(bg="#f3f4f6")
         
-        # Configure styles
+        # Configura estilos dos componentes
         self.style = ttk.Style()
         self.style.theme_use("clam")
         
-        # Color Palette
+        # Paleta de cores
         self.style.configure(".", background="#f3f4f6", foreground="#1f2937")
         self.style.configure("TLabel", background="#f3f4f6", font=("Segoe UI", 10))
         self.style.configure("TButton", font=("Segoe UI", 10, "bold"), padding=6)
         self.style.configure("Header.TLabel", font=("Segoe UI", 16, "bold"), foreground="#4f46e5", background="#f3f4f6")
         self.style.configure("Sub.TLabel", font=("Segoe UI", 11, "italic"), foreground="#4b5563", background="#f3f4f6")
         
-        # Treeview styling
+        # Estilizacao da tabela (Treeview)
         self.style.configure("Treeview", font=("Segoe UI", 9), rowheight=25, background="#ffffff", fieldbackground="#ffffff")
         self.style.configure("Treeview.Heading", font=("Segoe UI", 10, "bold"), background="#e5e7eb", foreground="#1f2937")
         self.style.map("Treeview", background=[("selected", "#6366f1")], foreground=[("selected", "#ffffff")])
         
-        # Setup Login Screen first
+        # Configura a tela de login inicial
         self.show_login_screen()
 
-    # ── LOGIN SCREEN ──────────────────────────────────
-    def show_login_screen(self):
+    # def show_login_screen(self):
         self.login_frame = tk.Frame(self.root, bg="#ffffff", bd=1, relief="solid")
         self.login_frame.place(relx=0.5, rely=0.5, anchor="center", width=420, height=350)
         
-        # Inner padding frame
+        # Espacamento interno
         inner = tk.Frame(self.login_frame, bg="#ffffff")
         inner.pack(padx=30, pady=30, fill="both", expand=True)
         
@@ -52,14 +49,14 @@ class GaiarbAdminApp:
         lbl_subtitle = tk.Label(inner, text="Painel de Controle Administrativo", font=("Segoe UI", 10, "italic"), fg="#6b7280", bg="#ffffff")
         lbl_subtitle.pack(pady=(0, 20))
         
-        # Username
+        # Campo de Usuario
         lbl_user = tk.Label(inner, text="Usuário:", font=("Segoe UI", 10, "bold"), fg="#374151", bg="#ffffff")
         lbl_user.pack(anchor="w")
         self.ent_user = ttk.Entry(inner, font=("Segoe UI", 11))
         self.ent_user.pack(fill="x", pady=(2, 12))
         self.ent_user.insert(0, "admin")  # Default placeholder
         
-        # Password
+        # Campo de Senha
         lbl_pass = tk.Label(inner, text="Senha:", font=("Segoe UI", 10, "bold"), fg="#374151", bg="#ffffff")
         lbl_pass.pack(anchor="w")
         self.ent_pass = ttk.Entry(inner, show="*", font=("Segoe UI", 11))
@@ -67,7 +64,7 @@ class GaiarbAdminApp:
         self.ent_pass.insert(0, "admin123")  # Default placeholder
         self.ent_pass.bind("<Return>", lambda e: self.perform_login())
         
-        # Login Button
+        # Botao de Login
         btn_login = tk.Button(
             inner, 
             text="Entrar no Painel", 
@@ -99,7 +96,7 @@ class GaiarbAdminApp:
                 TOKEN = data.get("token")
                 ADMIN_NAME = data.get("admin", {}).get("nome", "Administrador")
                 
-                # Clear login screen and load dashboard
+                # Limpa a tela de login e carrega o painel principal
                 self.login_frame.destroy()
                 self.show_dashboard()
             else:
@@ -109,9 +106,8 @@ class GaiarbAdminApp:
         except Exception as e:
             messagebox.showerror("Erro", f"Ocorreu um erro: {str(e)}")
 
-    # ── MAIN DASHBOARD ────────────────────────────────
-    def show_dashboard(self):
-        # Header banner
+    # def show_dashboard(self):
+        # Banner de cabecalho
         self.header_frame = tk.Frame(self.root, bg="#ffffff", height=60, bd=1, relief="ridge")
         self.header_frame.pack(fill="x", side="top")
         self.header_frame.pack_propagate(False)
@@ -132,16 +128,16 @@ class GaiarbAdminApp:
         )
         btn_logout.pack(side="right", padx=20, pady=12)
         
-        # Tabs container (Notebook)
+        # Container de abas
         self.notebook = ttk.Notebook(self.root)
         self.notebook.pack(fill="both", expand=True, padx=15, pady=15)
         
-        # Build Tabs
+        # Cria as abas
         self.build_voluntarios_tab()
         self.build_equipe_tab()
         self.build_financeiro_tab()
         
-        # Load initial data
+        # Carrega os dados iniciais do banco
         self.load_voluntarios()
         self.load_equipe()
         self.load_doacoes()
@@ -150,18 +146,17 @@ class GaiarbAdminApp:
         global TOKEN, ADMIN_NAME
         TOKEN = None
         ADMIN_NAME = ""
-        # Remove widgets
+        # Remove os widgets da tela
         self.header_frame.destroy()
         self.notebook.destroy()
-        # Relaunch login
+        # Recarrega a tela de login
         self.show_login_screen()
 
-    # ── TAB 1: VOLUNTÁRIOS ────────────────────────────
-    def build_voluntarios_tab(self):
+    # def build_voluntarios_tab(self):
         self.tab_vol = ttk.Frame(self.notebook)
         self.notebook.add(self.tab_vol, text="Voluntários Inscritos")
         
-        # Top tools frame
+        # Barra de ferramentas superior
         tools = tk.Frame(self.tab_vol, bg="#f3f4f6")
         tools.pack(fill="x", padx=10, pady=10)
         
@@ -174,7 +169,7 @@ class GaiarbAdminApp:
         btn_ref = tk.Button(tools, text="🔄 Atualizar Lista", font=("Segoe UI", 9, "bold"), bg="#4f46e5", fg="#ffffff", relief="flat", command=self.load_voluntarios)
         btn_ref.pack(side="right", padx=5)
         
-        # Table list
+        # Tabela de listagem
         cols = ("id", "nome", "email", "whatsapp", "area", "disponibilidade", "mensagem")
         self.tree_vol = ttk.Treeview(self.tab_vol, columns=cols, show="headings")
         
@@ -194,7 +189,7 @@ class GaiarbAdminApp:
         self.tree_vol.column("disponibilidade", width=130, minwidth=100)
         self.tree_vol.column("mensagem", width=200, minwidth=150)
         
-        # Scrollbars
+        # Barras de rolagem
         sc_y = ttk.Scrollbar(self.tab_vol, orient="vertical", command=self.tree_vol.yview)
         sc_x = ttk.Scrollbar(self.tab_vol, orient="horizontal", command=self.tree_vol.xview)
         self.tree_vol.configure(yscrollcommand=sc_y.set, xscrollcommand=sc_x.set)
@@ -203,7 +198,7 @@ class GaiarbAdminApp:
         sc_y.pack(fill="y", side="right")
         sc_x.pack(fill="x", side="bottom")
         
-        # Bind double-click to view message details
+        # Associa duplo clique para ver detalhes da mensagem
         self.tree_vol.bind("<Double-1>", self.view_volunteer_details)
 
     def load_voluntarios(self):
@@ -235,7 +230,7 @@ class GaiarbAdminApp:
         item = self.tree_vol.item(sel[0])
         val = item["values"]
         
-        # Popup detailing volunteer info
+        # Janela popup com informacoes do voluntario
         detail_win = tk.Toplevel(self.root)
         detail_win.title(f"Ficha do Voluntário: {val[1]}")
         detail_win.geometry("500x380")
@@ -283,27 +278,26 @@ class GaiarbAdminApp:
             except Exception as e:
                 messagebox.showerror("Erro de Conexão", str(e))
 
-    # ── TAB 2: EQUIPE (MEMBROS) ───────────────────────
-    def build_equipe_tab(self):
+    # def build_equipe_tab(self):
         self.tab_eq = ttk.Frame(self.notebook)
         self.notebook.add(self.tab_eq, text="Membros da Equipe")
         
-        # Split layout: Form left, Table list right
+        # Layout dividido: Formulario na esquerda, Tabela na direita
         self.tab_eq.columnconfigure(0, weight=2)
         self.tab_eq.columnconfigure(1, weight=3)
         self.tab_eq.rowconfigure(0, weight=1)
         
-        # Left Panel (Add Form)
+        # Painel Esquerdo (Formulario de Adicao)
         form_frame = tk.Frame(self.tab_eq, bg="#ffffff", bd=1, relief="solid")
         form_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
         
-        # Pad frame
+        # Espacamento
         form_inner = tk.Frame(form_frame, bg="#ffffff")
         form_inner.pack(fill="both", expand=True, padx=15, pady=15)
         
         tk.Label(form_inner, text="Cadastrar Membro", font=("Segoe UI", 12, "bold"), fg="#4f46e5", bg="#ffffff").pack(anchor="w", pady=(0, 10))
         
-        # Form inputs
+        # Entradas do formulario
         tk.Label(form_inner, text="Número da Tag (Ex: 01, 02):", font=("Segoe UI", 9, "bold"), fg="#4b5563", bg="#ffffff").pack(anchor="w")
         self.ent_eq_num = ttk.Entry(form_inner)
         self.ent_eq_num.pack(fill="x", pady=(2, 10))
@@ -338,7 +332,7 @@ class GaiarbAdminApp:
         )
         btn_add_eq.pack(fill="x", ipady=3)
 
-        # Right Panel (List and delete)
+        # Painel Direito (Listagem e Exclusao)
         list_frame = tk.Frame(self.tab_eq)
         list_frame.grid(row=0, column=1, sticky="nsew", padx=(5, 10), pady=10)
         
@@ -419,14 +413,14 @@ class GaiarbAdminApp:
             r = requests.post(f"{API_URL}/api/equipe", json=payload, timeout=5)
             if r.status_code == 200:
                 messagebox.showinfo("Sucesso", "Novo membro adicionado com sucesso!")
-                # Reset inputs
+                # Limpa as entradas do formulario
                 self.ent_eq_num.delete(0, "end")
                 self.ent_eq_nome.delete(0, "end")
                 self.ent_eq_cargo.delete(0, "end")
                 self.ent_eq_ordem.delete(0, "end")
                 self.ent_eq_ordem.insert(0, "0")
                 self.txt_eq_bio.delete("1.0", "end")
-                # Reload table
+                # Recarrega a tabela de dados
                 self.load_equipe()
             else:
                 messagebox.showerror("Erro", "Erro ao tentar registrar o membro.")
@@ -452,17 +446,16 @@ class GaiarbAdminApp:
             except Exception as e:
                 messagebox.showerror("Erro de Conexão", str(e))
 
-    # ── TAB 3: FINANCEIRO (DOAÇÕES) ───────────────────
-    def build_financeiro_tab(self):
+    # def build_financeiro_tab(self):
         self.tab_fin = ttk.Frame(self.notebook)
         self.notebook.add(self.tab_fin, text="Registro Financeiro / Doações")
         
-        # Split layout: Form left, Table list right
+        # Layout dividido: Formulario na esquerda, Tabela na direita
         self.tab_fin.columnconfigure(0, weight=2)
         self.tab_fin.columnconfigure(1, weight=3)
         self.tab_fin.rowconfigure(0, weight=1)
         
-        # Left Panel (Add Form)
+        # Painel Esquerdo (Formulario de Adicao)
         form_frame = tk.Frame(self.tab_fin, bg="#ffffff", bd=1, relief="solid")
         form_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
         
@@ -471,7 +464,7 @@ class GaiarbAdminApp:
         
         tk.Label(form_inner, text="Registrar Doação / Lançamento", font=("Segoe UI", 12, "bold"), fg="#4f46e5", bg="#ffffff").pack(anchor="w", pady=(0, 15))
         
-        # Form inputs
+        # Entradas do formulario
         tk.Label(form_inner, text="Valor do Lançamento (R$):", font=("Segoe UI", 9, "bold"), fg="#4b5563", bg="#ffffff").pack(anchor="w")
         self.ent_fin_valor = ttk.Entry(form_inner)
         self.ent_fin_valor.pack(fill="x", pady=(2, 12))
@@ -500,7 +493,7 @@ class GaiarbAdminApp:
         )
         btn_add_fin.pack(fill="x", ipady=3)
 
-        # Right Panel (List and delete)
+        # Painel Direito (Listagem e Exclusao)
         list_frame = tk.Frame(self.tab_fin)
         list_frame.grid(row=0, column=1, sticky="nsew", padx=(5, 10), pady=10)
         
@@ -548,7 +541,7 @@ class GaiarbAdminApp:
                     val = d.get("valor", 0.0)
                     formatted_val = f"R$ {float(val):.2f}"
                     
-                    # Convert date to standard friendly view
+                    # Converte a data para um formato amigavel
                     raw_date = d.get("data_doacao", "")
                     friendly_date = raw_date.replace("T", " ")[:19]
                     

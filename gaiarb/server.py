@@ -426,7 +426,7 @@ def voluntario_login():
         vol = vols[0]
         if (vol.get('status') or 'Pendente') != 'Aprovado':
             return jsonify({"success": False, "error": "Acesso pendente de aprovação pelo administrador."}), 403
-        # Format date for JSON
+        # Formata a data para JSON
         if 'data_cadastro' in vol and isinstance(vol['data_cadastro'], datetime.datetime):
             vol['data_cadastro'] = vol['data_cadastro'].isoformat()
         return jsonify({
@@ -697,7 +697,7 @@ def mercadopago_webhook():
     if str(payment_id).startswith("simulado-"):
         parts = str(payment_id).split('-')
         if len(parts) >= 3:
-            sim_status = parts[1]  # approved or rejected
+            sim_status = parts[1]  # aprovado ou recusado
             sim_amount = float(parts[2])
             db_status = 'Confirmado' if sim_status == 'approved' else 'Cancelado'
             
@@ -813,5 +813,5 @@ def static_proxy(path):
 init_db()
 
 if __name__ == '__main__':
-    # Run server on port 8000
+    # Executa o servidor na porta 8000
     app.run(host='0.0.0.0', port=8000, debug=True)

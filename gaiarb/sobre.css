@@ -1,9 +1,6 @@
-/* ═══════════════════════════════════════════════
-   GAIARB – sobre.css (Organic NGO Redesign)
-   ═══════════════════════════════════════════════ */
+   /* GAIARB – sobre.css (Organic NGO Redesign) */
 
-/* ── HISTÓRIA & ATUAÇÃO SECTIONS ────────────────── */
-.about-section {
+/* .about-section { */
     padding: 80px 0;
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -78,8 +75,7 @@
     transform: scale(1.02);
 }
 
-/* ── MISSÃO VISÃO VALORES ──────────────────────── */
-.mvv-section {
+/* .mvv-section { */
     padding: 80px 0;
     background: var(--white);
     text-align: center;
@@ -152,8 +148,7 @@
     margin: 0;
 }
 
-/* ── VALORES EM PRÁTICA ───────────────────────── */
-.valores-section {
+/* .valores-section { */
     padding: 80px 0;
     background: var(--bg);
     text-align: center;
@@ -194,8 +189,7 @@
     background: var(--primary-light);
 }
 
-/* ── RESPONSIVO ────────────────────────────────── */
-@media screen and (max-width: 992px) {
+/* @media screen and (max-width: 992px) { */
     .about-section {
         padding: 60px 0;
     }

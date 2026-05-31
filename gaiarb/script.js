@@ -210,7 +210,7 @@ function iniciarFadeInSections() {
 let activeDoeTab = 'pix';
 
 function switchDoeTab(tab) {
-    // compatibility placeholder
+    // espaco reservado para compatibilidade
 }
 
 function inicializarPaginaDoacao() {

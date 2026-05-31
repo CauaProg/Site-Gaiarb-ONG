@@ -1,9 +1,6 @@
-/* ═══════════════════════════════════════════════
-   GAIARB – home.css (Organic NGO Redesign)
-   ═══════════════════════════════════════════════ */
+   /* GAIARB – home.css (Organic NGO Redesign) */
 
-/* ── HERO SECTION (Editorial Two-Column Layout) ── */
-.hero-section {
+/* .hero-section { */
     padding: 80px 0;
     background-color: var(--bg);
     border-bottom: 1px solid var(--border);
@@ -130,8 +127,7 @@
     pointer-events: none;
 }
 
-/* ── STATS SECTION (Typographic Layout) ────────── */
-.stats-section {
+/* .stats-section { */
     padding: 60px 0;
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -182,8 +178,7 @@
     margin-top: 4px;
 }
 
-/* ── QUEM SOMOS ─────────────────────────────────── */
-.about-brief-section {
+/* .about-brief-section { */
     padding: 80px 0;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
@@ -278,8 +273,7 @@
     color: var(--text);
 }
 
-/* ── COMO AJUDAR (Editorial Layout) ─────────────── */
-.how-to-help-section {
+/* .how-to-help-section { */
     padding: 80px 0;
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -389,8 +383,7 @@
     color: var(--secondary);
 }
 
-/* ── DEPOIMENTOS (TESTIMONIALS) ───────────────── */
-.testimonials-section {
+/* .testimonials-section { */
     padding: 80px 0;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
@@ -476,8 +469,7 @@
     color: var(--text-light);
 }
 
-/* ── FAQ SECTION ────────────────────────────────── */
-.faq-section {
+/* .faq-section { */
     padding: 80px 0;
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -534,8 +526,7 @@
     transform: rotate(45deg);
 }
 
-/* ── NEWSLETTER SECTION ──────────────────────────── */
-.newsletter-section {
+/* .newsletter-section { */
     padding: 60px 0;
     background: var(--primary-light);
     border-bottom: 1px solid var(--border);
@@ -590,8 +581,7 @@
     flex-shrink: 0;
 }
 
-/* ── RESPONSIVE DESIGN ──────────────────────────── */
-@media screen and (max-width: 992px) {
+/* @media screen and (max-width: 992px) { */
     .hero-container {
         grid-template-columns: 1fr;
         gap: 40px;
@@ -698,8 +688,7 @@
     }
 }
 
-/* ── VIDEO SECTION (CONSCIENTIZAÇÃO) ── */
-.video-section {
+/* .video-section { */
     padding: 80px 0;
     background-color: var(--white);
     border-bottom: 1px solid var(--border);
@@ -726,8 +715,7 @@
     text-align: center;
 }
 
-/* ── G1 REPORT CARD (CONSCIENTIZAÇÃO) ── */
-.g1-report-card {
+/* .g1-report-card { */
     display: grid;
     grid-template-columns: 1.1fr 1.3fr;
     gap: 40px;

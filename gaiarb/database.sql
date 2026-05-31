@@ -1,8 +1,6 @@
--- ═══════════════════════════════════════════════
 -- GAIARB – DATABASE SCHEMA & SEED DATA
--- ═══════════════════════════════════════════════
-
--- 1. ADMINS TABLE (For managing the dashboard)
+-- 
+-- 1. TABELA DE ADMINS (Para gerenciar o painel)
 CREATE TABLE IF NOT EXISTS admins (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -11,7 +9,7 @@ CREATE TABLE IF NOT EXISTS admins (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. VOLUNTARIOS TABLE (For storing volunteer form applications)
+-- 2. TABELA DE VOLUNTARIOS (Para guardar inscricoes de voluntarios)
 CREATE TABLE IF NOT EXISTS voluntarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome VARCHAR(100) NOT NULL,
@@ -24,7 +22,7 @@ CREATE TABLE IF NOT EXISTS voluntarios (
     data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3. DOACOES TABLE (For logging generated donations)
+-- 3. TABELA DE DOACOES (Para guardar doacoes registradas)
 CREATE TABLE IF NOT EXISTS doacoes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     valor DECIMAL(10,2) NOT NULL,
@@ -33,7 +31,7 @@ CREATE TABLE IF NOT EXISTS doacoes (
     status VARCHAR(20) DEFAULT 'Pendente'
 );
 
--- 4. EQUIPE TABLE (For storing team members dynamically)
+-- 4. TABELA DE EQUIPE (Para guardar membros da equipe)
 CREATE TABLE IF NOT EXISTS equipe (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     numero VARCHAR(10),
@@ -44,15 +42,13 @@ CREATE TABLE IF NOT EXISTS equipe (
 );
 
 
--- ═══════════════════════════════════════════════
 -- SEED DATA
--- ═══════════════════════════════════════════════
-
--- Seed Admin User (Username: admin, Password: admin123, Hash: SHA-256)
+-- 
+-- Cadastra Usuario Admin (Login: admin, Senha: admin123, Hash: SHA-256)
 INSERT OR IGNORE INTO admins (id, username, password_hash, nome) 
 VALUES (1, 'admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Administrador GAIARB');
 
--- Seed Team Members (Without photo field)
+-- Cadastra Membros da Equipe
 INSERT OR IGNORE INTO equipe (id, numero, nome, cargo, bio, ordem) VALUES
 (1, '01', 'Ayla de Cássia Franco Bragança', 'Presidente(a)', 'Fundadora do GAIARB, dedicou sua vida ao acolhimento. Lidera o projeto com amor e determinação.', 1),
 (2, '02', 'Daniele dos Santos Charré Duarte', 'Vice-Presidente(a)', 'Bio dela', 2),

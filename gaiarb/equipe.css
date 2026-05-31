@@ -1,9 +1,6 @@
-/* ═══════════════════════════════════════════════
-   GAIARB – equipe.css (Organic NGO Redesign)
-   ═══════════════════════════════════════════════ */
+   /* GAIARB – equipe.css (Organic NGO Redesign) */
 
-/* ── INTRO ──────────────────────────────────────── */
-.equipe-intro {
+/* .equipe-intro { */
     background: var(--bg);
     padding: 80px 0;
     text-align: center;
@@ -30,8 +27,7 @@
     line-height: 1.65;
 }
 
-/* ── TEAM GRID ──────────────────────────────────── */
-.team-section {
+/* .team-section { */
     padding: 80px 0;
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -144,8 +140,7 @@
     margin: 0;
 }
 
-/* ── RESPONSIVE ────────────────────────────────── */
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) { */
     .equipe-intro {
         padding: 60px 0;
     }
