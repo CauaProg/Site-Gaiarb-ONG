@@ -185,6 +185,14 @@ def init_db():
                 VALUES ('teste1', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Administrador Teste')
             """)
             
+        # Cria o administrador adm se nao existir
+        cursor.execute("SELECT COUNT(*) FROM admins WHERE username = 'adm'")
+        if cursor.fetchone()[0] == 0:
+            cursor.execute("""
+                INSERT INTO admins (username, password_hash, nome) 
+                VALUES ('adm', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Administrador Adm')
+            """)
+            
         # Preenche a equipe se estiver vazia
         cursor.execute("SELECT COUNT(*) FROM equipe")
         if cursor.fetchone()[0] == 0:
@@ -274,6 +282,14 @@ def init_db():
         cursor.execute("""
             INSERT INTO admins (username, password_hash, nome) 
             VALUES ('teste1', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Administrador Teste')
+        """)
+        
+    # Cria o administrador adm se nao existir
+    cursor.execute("SELECT COUNT(*) FROM admins WHERE username = 'adm'")
+    if cursor.fetchone()[0] == 0:
+        cursor.execute("""
+            INSERT INTO admins (username, password_hash, nome) 
+            VALUES ('adm', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Administrador Adm')
         """)
         
     # Preenche a equipe se estiver vazia
