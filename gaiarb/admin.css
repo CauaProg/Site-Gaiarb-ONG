@@ -147,7 +147,7 @@ body {
 /* Barra Lateral */
 .admin-sidebar {
     width: 260px;
-    background: #141c18; /* Barra lateral cinza-escura esverdeada */
+    background: #141c18;
     border-right: 1px solid var(--border-color);
     padding: 30px 20px;
     display: flex;
