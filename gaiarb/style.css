@@ -5,7 +5,7 @@
     --primary-light: #f1f5f3; /* Tom verde quente suave */
     --secondary: #be5338; /* Terracota / Ferrugem */
     --accent: #d9a74a; /* Dourado quente */
-    --bg: #fbfaf6; /* Warm sand/linen background */
+    --bg: #fbfaf6; /* Fundo areia quente claro */
     --white: #ffffff;
     --text: #19201c; /* Cinza escuro floresta quente */
     --text-light: #56615b; /* Cinza oliva fosco */
@@ -31,16 +31,20 @@ body {
 
 a { text-decoration: none; color: inherit; }
 
-/* { cursor: default; } */
+/* Cursor Personalizado */
+* { cursor: default; }
 a, button, [onclick], .valor-btn, .filtro-btn, .galeria-item, .info-chave { cursor: pointer; }
 
-/* ::selection { background: rgba(190, 83, 56, 0.15); color: var(--text); } */
+/* Seleção Colorida */
+::selection { background: rgba(190, 83, 56, 0.15); color: var(--text); }
 
-/* ::-webkit-scrollbar { width: 6px; } */
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f5f4ef; }
 ::-webkit-scrollbar-thumb { background: var(--primary); }
 
-/* .header { */
+/* Cabeçalho */
+.header {
     width: 100%;
     height: 90px;
     background-color: rgba(251, 250, 246, 0.95);
@@ -146,6 +150,8 @@ a, button, [onclick], .valor-btn, .filtro-btn, .galeria-item, .info-chave { curs
     color: var(--primary) !important;
 }
 
+.btn-entrar::after { display: none !important; }
+/* Banner */
 .banner {
     width: 100%;
     height: 380px;
@@ -187,7 +193,8 @@ a, button, [onclick], .valor-btn, .filtro-btn, .galeria-item, .info-chave { curs
     color: var(--accent) !important;
 }
 
-/* .secao { */
+/* Seções Alternadas */
+.secao {
     width: 100%;
     min-height: 400px;
     height: auto;
@@ -249,7 +256,8 @@ a, button, [onclick], .valor-btn, .filtro-btn, .galeria-item, .info-chave { curs
 .secao-white .secao-img,
 .secao-soft  .secao-img  { margin-right: 50px; }
 
-/* #transicao-footer { */
+/* Transição */
+#transicao-footer {
     width: 100%;
     height: 48px;
     background-color: var(--bg);
@@ -260,9 +268,10 @@ a, button, [onclick], .valor-btn, .filtro-btn, .galeria-item, .info-chave { curs
     border: none;
 }
 
-/* footer { */
+/* Rodapé */
+footer {
     width: 100%;
-    background-color: #141c18; /* Deep charcoal with green subtone */
+    background-color: #141c18; /* Cinza escuro floresta quente */
     color: #e0ddd5;
     padding: 60px 20px 20px;
     margin-top: auto;
@@ -333,7 +342,8 @@ a, button, [onclick], .valor-btn, .filtro-btn, .galeria-item, .info-chave { curs
 
 .footer-bottom p { font-size: 12px; color: #76817b; }
 
-/* .btn-primary { */
+/* Botões Globais */
+.btn-primary {
     background: var(--primary);
     color: white;
     border: 1px solid var(--primary);
@@ -373,7 +383,8 @@ a, button, [onclick], .valor-btn, .filtro-btn, .galeria-item, .info-chave { curs
     color: white;
 }
 
-/* @media screen and (max-width: 900px) { */
+/* Responsividade */
+@media screen and (max-width: 900px) {
     .header { height: auto; min-height: 80px; flex-wrap: wrap; padding: 15px 20px; gap: 12px; }
     .alllinks { gap: 2px; justify-content: center; }
     .linkshead { font-size: 13px; padding: 6px 8px; }
@@ -406,7 +417,8 @@ a, button, [onclick], .valor-btn, .filtro-btn, .galeria-item, .info-chave { curs
     #transicao-footer { height: 60px; }
 }
 
-/* .container { */
+/* Componentes Globais de Estrutura */
+.container {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
@@ -414,11 +426,14 @@ a, button, [onclick], .valor-btn, .filtro-btn, .galeria-item, .info-chave { curs
     box-sizing: border-box;
 }
 
-/* , ::before, ::after { */
+/* Estética Canvas e Molduras */
+*, *::before, *::after {
     border-radius: 0px;
 }
 
-/*  */
+/* Elementos de Arte e Tinta */
+
+/* Textura de tela de pintura (quadro/canvas) ultra sutil sobre todo o site */
 body::before {
     content: '';
     position: fixed;
@@ -528,7 +543,7 @@ h1 span::after, h2 span::after, h3 span::after, .secao h1 span::after, .doe-hero
     box-shadow: 0 16px 36px rgba(25, 32, 28, 0.12), 4px 4px 0px rgba(0,0,0,0.04) !important;
 }
 
-/* Elementos de Desenho e Esbocos */
+/* Elementos de Desenho (Sketch/Drawing) */
 .sketch-element {
     position: absolute;
     pointer-events: none;

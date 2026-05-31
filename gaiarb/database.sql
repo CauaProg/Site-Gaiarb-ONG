@@ -1,5 +1,5 @@
--- GAIARB – DATABASE SCHEMA & SEED DATA
--- 
+-- GAIARB – Estrutura do Banco de Dados e Dados Iniciais
+
 -- 1. TABELA DE ADMINS (Para gerenciar o painel)
 CREATE TABLE IF NOT EXISTS admins (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS admins (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. TABELA DE VOLUNTARIOS (Para guardar inscricoes de voluntarios)
+-- 2. TABELA DE VOLUNTARIOS (Para guardar inscrições de voluntários)
 CREATE TABLE IF NOT EXISTS voluntarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome VARCHAR(100) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS voluntarios (
     data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3. TABELA DE DOACOES (Para guardar doacoes registradas)
+-- 3. TABELA DE DOACOES (Para guardar doações registradas)
 CREATE TABLE IF NOT EXISTS doacoes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     valor DECIMAL(10,2) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS doacoes (
     status VARCHAR(20) DEFAULT 'Pendente'
 );
 
--- 4. TABELA DE EQUIPE (Para guardar membros da equipe)
+-- 4. TABELA DE EQUIPE (Para guardar membros da equipe dinamicamente)
 CREATE TABLE IF NOT EXISTS equipe (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     numero VARCHAR(10),
@@ -42,13 +42,13 @@ CREATE TABLE IF NOT EXISTS equipe (
 );
 
 
--- SEED DATA
--- 
--- Cadastra Usuario Admin (Login: admin, Senha: admin123, Hash: SHA-256)
+-- DADOS INICIAIS (SEED)
+
+-- Cadastra Usuário Admin Padrão (Login: admin, Senha: admin123, Hash: SHA-256)
 INSERT OR IGNORE INTO admins (id, username, password_hash, nome) 
 VALUES (1, 'admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Administrador GAIARB');
 
--- Cadastra Membros da Equipe
+-- Cadastra Membros Iniciais da Equipe (Sem campo de foto)
 INSERT OR IGNORE INTO equipe (id, numero, nome, cargo, bio, ordem) VALUES
 (1, '01', 'Ayla de Cássia Franco Bragança', 'Presidente(a)', 'Fundadora do GAIARB, dedicou sua vida ao acolhimento. Lidera o projeto com amor e determinação.', 1),
 (2, '02', 'Daniele dos Santos Charré Duarte', 'Vice-Presidente(a)', 'Bio dela', 2),

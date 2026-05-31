@@ -1,5 +1,5 @@
-# GAIARB – DESKTOP ADMIN CLIENT (TKINTER & API)
-# 
+# GAIARB – Client Admin Desktop (Tkinter)
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 import requests
@@ -27,7 +27,7 @@ class GaiarbAdminApp:
         self.style.configure("Header.TLabel", font=("Segoe UI", 16, "bold"), foreground="#4f46e5", background="#f3f4f6")
         self.style.configure("Sub.TLabel", font=("Segoe UI", 11, "italic"), foreground="#4b5563", background="#f3f4f6")
         
-        # Estilizacao da tabela (Treeview)
+        # Estilização da tabela (Treeview)
         self.style.configure("Treeview", font=("Segoe UI", 9), rowheight=25, background="#ffffff", fieldbackground="#ffffff")
         self.style.configure("Treeview.Heading", font=("Segoe UI", 10, "bold"), background="#e5e7eb", foreground="#1f2937")
         self.style.map("Treeview", background=[("selected", "#6366f1")], foreground=[("selected", "#ffffff")])
@@ -35,11 +35,12 @@ class GaiarbAdminApp:
         # Configura a tela de login inicial
         self.show_login_screen()
 
-    # def show_login_screen(self):
+    # Tela de Login
+    def show_login_screen(self):
         self.login_frame = tk.Frame(self.root, bg="#ffffff", bd=1, relief="solid")
         self.login_frame.place(relx=0.5, rely=0.5, anchor="center", width=420, height=350)
         
-        # Espacamento interno
+        # Espaçamento interno
         inner = tk.Frame(self.login_frame, bg="#ffffff")
         inner.pack(padx=30, pady=30, fill="both", expand=True)
         
@@ -49,7 +50,7 @@ class GaiarbAdminApp:
         lbl_subtitle = tk.Label(inner, text="Painel de Controle Administrativo", font=("Segoe UI", 10, "italic"), fg="#6b7280", bg="#ffffff")
         lbl_subtitle.pack(pady=(0, 20))
         
-        # Campo de Usuario
+        # Campo de Usuário
         lbl_user = tk.Label(inner, text="Usuário:", font=("Segoe UI", 10, "bold"), fg="#374151", bg="#ffffff")
         lbl_user.pack(anchor="w")
         self.ent_user = ttk.Entry(inner, font=("Segoe UI", 11))
@@ -64,7 +65,7 @@ class GaiarbAdminApp:
         self.ent_pass.insert(0, "admin123")  # Default placeholder
         self.ent_pass.bind("<Return>", lambda e: self.perform_login())
         
-        # Botao de Login
+        # Botão de Login
         btn_login = tk.Button(
             inner, 
             text="Entrar no Painel", 
@@ -106,8 +107,9 @@ class GaiarbAdminApp:
         except Exception as e:
             messagebox.showerror("Erro", f"Ocorreu um erro: {str(e)}")
 
-    # def show_dashboard(self):
-        # Banner de cabecalho
+    # Painel Principal
+    def show_dashboard(self):
+        # Banner de cabeçalho
         self.header_frame = tk.Frame(self.root, bg="#ffffff", height=60, bd=1, relief="ridge")
         self.header_frame.pack(fill="x", side="top")
         self.header_frame.pack_propagate(False)
@@ -152,7 +154,8 @@ class GaiarbAdminApp:
         # Recarrega a tela de login
         self.show_login_screen()
 
-    # def build_voluntarios_tab(self):
+    # Aba de Voluntários
+    def build_voluntarios_tab(self):
         self.tab_vol = ttk.Frame(self.notebook)
         self.notebook.add(self.tab_vol, text="Voluntários Inscritos")
         
@@ -198,7 +201,7 @@ class GaiarbAdminApp:
         sc_y.pack(fill="y", side="right")
         sc_x.pack(fill="x", side="bottom")
         
-        # Associa duplo clique para ver detalhes da mensagem
+        # Associa duplo clique para ver detalhes
         self.tree_vol.bind("<Double-1>", self.view_volunteer_details)
 
     def load_voluntarios(self):
@@ -230,7 +233,7 @@ class GaiarbAdminApp:
         item = self.tree_vol.item(sel[0])
         val = item["values"]
         
-        # Janela popup com informacoes do voluntario
+        # Janela popup com informações detalhadas do voluntário
         detail_win = tk.Toplevel(self.root)
         detail_win.title(f"Ficha do Voluntário: {val[1]}")
         detail_win.geometry("500x380")
@@ -278,26 +281,27 @@ class GaiarbAdminApp:
             except Exception as e:
                 messagebox.showerror("Erro de Conexão", str(e))
 
-    # def build_equipe_tab(self):
+    # Aba de Equipe (Membros)
+    def build_equipe_tab(self):
         self.tab_eq = ttk.Frame(self.notebook)
         self.notebook.add(self.tab_eq, text="Membros da Equipe")
         
-        # Layout dividido: Formulario na esquerda, Tabela na direita
+        # Layout dividido: Formulário na esquerda, Tabela na direita
         self.tab_eq.columnconfigure(0, weight=2)
         self.tab_eq.columnconfigure(1, weight=3)
         self.tab_eq.rowconfigure(0, weight=1)
         
-        # Painel Esquerdo (Formulario de Adicao)
+        # Painel Esquerdo (Formulário de Adição)
         form_frame = tk.Frame(self.tab_eq, bg="#ffffff", bd=1, relief="solid")
         form_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
         
-        # Espacamento
+        # Espaçamento
         form_inner = tk.Frame(form_frame, bg="#ffffff")
         form_inner.pack(fill="both", expand=True, padx=15, pady=15)
         
         tk.Label(form_inner, text="Cadastrar Membro", font=("Segoe UI", 12, "bold"), fg="#4f46e5", bg="#ffffff").pack(anchor="w", pady=(0, 10))
         
-        # Entradas do formulario
+        # Entradas do formulário
         tk.Label(form_inner, text="Número da Tag (Ex: 01, 02):", font=("Segoe UI", 9, "bold"), fg="#4b5563", bg="#ffffff").pack(anchor="w")
         self.ent_eq_num = ttk.Entry(form_inner)
         self.ent_eq_num.pack(fill="x", pady=(2, 10))
@@ -332,7 +336,7 @@ class GaiarbAdminApp:
         )
         btn_add_eq.pack(fill="x", ipady=3)
 
-        # Painel Direito (Listagem e Exclusao)
+        # Painel Direito (Listagem e Exclusão)
         list_frame = tk.Frame(self.tab_eq)
         list_frame.grid(row=0, column=1, sticky="nsew", padx=(5, 10), pady=10)
         
@@ -413,7 +417,7 @@ class GaiarbAdminApp:
             r = requests.post(f"{API_URL}/api/equipe", json=payload, timeout=5)
             if r.status_code == 200:
                 messagebox.showinfo("Sucesso", "Novo membro adicionado com sucesso!")
-                # Limpa as entradas do formulario
+                # Limpa as entradas do formulário
                 self.ent_eq_num.delete(0, "end")
                 self.ent_eq_nome.delete(0, "end")
                 self.ent_eq_cargo.delete(0, "end")
@@ -446,16 +450,17 @@ class GaiarbAdminApp:
             except Exception as e:
                 messagebox.showerror("Erro de Conexão", str(e))
 
-    # def build_financeiro_tab(self):
+    # Aba Financeira (Doações)
+    def build_financeiro_tab(self):
         self.tab_fin = ttk.Frame(self.notebook)
         self.notebook.add(self.tab_fin, text="Registro Financeiro / Doações")
         
-        # Layout dividido: Formulario na esquerda, Tabela na direita
+        # Layout dividido: Formulário na esquerda, Tabela na direita
         self.tab_fin.columnconfigure(0, weight=2)
         self.tab_fin.columnconfigure(1, weight=3)
         self.tab_fin.rowconfigure(0, weight=1)
         
-        # Painel Esquerdo (Formulario de Adicao)
+        # Painel Esquerdo (Formulário de Adição)
         form_frame = tk.Frame(self.tab_fin, bg="#ffffff", bd=1, relief="solid")
         form_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
         
@@ -464,7 +469,7 @@ class GaiarbAdminApp:
         
         tk.Label(form_inner, text="Registrar Doação / Lançamento", font=("Segoe UI", 12, "bold"), fg="#4f46e5", bg="#ffffff").pack(anchor="w", pady=(0, 15))
         
-        # Entradas do formulario
+        # Entradas do formulário
         tk.Label(form_inner, text="Valor do Lançamento (R$):", font=("Segoe UI", 9, "bold"), fg="#4b5563", bg="#ffffff").pack(anchor="w")
         self.ent_fin_valor = ttk.Entry(form_inner)
         self.ent_fin_valor.pack(fill="x", pady=(2, 12))
@@ -493,7 +498,7 @@ class GaiarbAdminApp:
         )
         btn_add_fin.pack(fill="x", ipady=3)
 
-        # Painel Direito (Listagem e Exclusao)
+        # Painel Direito (Listagem e Exclusão)
         list_frame = tk.Frame(self.tab_fin)
         list_frame.grid(row=0, column=1, sticky="nsew", padx=(5, 10), pady=10)
         
@@ -541,7 +546,7 @@ class GaiarbAdminApp:
                     val = d.get("valor", 0.0)
                     formatted_val = f"R$ {float(val):.2f}"
                     
-                    # Converte a data para um formato amigavel
+                    # Converte a data para um formato amigável
                     raw_date = d.get("data_doacao", "")
                     friendly_date = raw_date.replace("T", " ")[:19]
                     

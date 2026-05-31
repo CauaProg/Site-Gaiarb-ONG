@@ -1,6 +1,16 @@
-   /* GAIARB – admin.css (Organic NGO Redesign) */
+/* GAIARB – admin.css */
 
-/* :root { */
+/* Configurações Globais */
+:root {
+    --bg-dark: #faf8f4; /* Fundo areia quente claro */
+    --bg-card: #ffffff; /* Base de cartão branca limpa */
+    --bg-hover: #f1f5f3; /* Destaque verde quente suave */
+    --text-main: #19201c; /* Cinza escuro floresta quente */
+    --text-muted: #56615b; /* Cinza oliva fosco */
+    --border-color: #e0ddd5; /* Borda suave quente */
+    --primary: #1d3d31; /* Verde floresta escuro */
+    --secondary: #be5338; /* Terracota / Ferrugem */
+    --accent: #d9a74a; /* Dourado quente */
     --danger: #be5338;
 }
 
@@ -14,7 +24,8 @@ body {
     min-height: 100vh;
 }
 
-/* .login-overlay { */
+/* Login Overlay */
+.login-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -127,12 +138,14 @@ body {
     border-color: var(--secondary);
 }
 
-/* .admin-container { */
+/* Layout Container */
+.admin-container {
     display: flex;
     min-height: 100vh;
 }
 
-/* .admin-sidebar { */
+/* Barra Lateral */
+.admin-sidebar {
     width: 260px;
     background: #141c18; /* Barra lateral cinza-escura esverdeada */
     border-right: 1px solid var(--border-color);
@@ -206,7 +219,8 @@ body {
     line-height: 1.5;
 }
 
-/* .admin-main { */
+/* Conteúdo Principal */
+.admin-main {
     flex-grow: 1;
     padding: 40px;
     box-sizing: border-box;
@@ -251,7 +265,8 @@ body {
     border-radius: 50%;
 }
 
-/* .metrics-grid { */
+/* Grid de Métricas */
+.metrics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
@@ -288,7 +303,8 @@ body {
     color: var(--primary);
 }
 
-/* .admin-section { */
+/* Seções e Painéis */
+.admin-section {
     display: none;
 }
 
@@ -348,7 +364,8 @@ body {
     border-color: var(--primary);
 }
 
-/* .tabela-scroll { */
+/* Tabelas */
+.tabela-scroll {
     overflow-x: auto;
     width: 100%;
 }
@@ -425,7 +442,8 @@ body {
     text-align: center;
 }
 
-/* .dist-list { */
+/* Áreas de Atuação */
+.dist-list {
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -473,7 +491,8 @@ body {
     font-style: italic;
 }
 
-/* @media (max-width: 960px) { */
+/* Design Responsivo */
+@media (max-width: 960px) {
     .dashboard-panels {
         grid-template-columns: 1fr;
     }

@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<!-- LOGIN OVERLAY -->
+<!-- TELA DE LOGIN -->
 <div class="login-overlay" id="loginOverlay">
     <div class="login-card">
         <img src="imagens/simbolo_infinito.png" alt="GAIARB" style="height: 48px; width: auto; margin-bottom: 20px; display: inline-block;">
@@ -32,9 +32,9 @@
     </div>
 </div>
 
-<!-- HEADER (SIDEBAR & MAIN VIEW WRAPPER) -->
+<!-- CABEÇALHO (BARRA LATERAL E ENVOLTÓRIO PRINCIPAL) -->
 <div class="admin-container" id="adminContainer" style="display: none;">
-    <!-- SIDEBAR -->
+    <!-- BARRA LATERAL -->
     <aside class="admin-sidebar">
         <div class="sidebar-header">
             <img src="imagens/simbolo_infinito.png" alt="GAIARB Logo" style="height: 32px; width: auto; object-fit: contain;">
@@ -61,9 +61,9 @@
         </div>
     </aside>
 
-    <!-- MAIN CONTENT AREA -->
+    <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
     <main class="admin-main">
-        <!-- TOP NAV -->
+        <!-- NAVEGAÇÃO SUPERIOR -->
         <header class="admin-header">
             <div>
                 <h1 id="welcomeUser">Olá, Administrador</h1>
@@ -75,9 +75,9 @@
             </div>
         </header>
 
-        <!-- SECTION: DASHBOARD -->
+        <!-- SEÇÃO: PAINEL GERAL -->
         <section id="sec-dashboard" class="admin-section active">
-            <!-- METRICS GRID -->
+            <!-- GRID DE MÉTRICAS -->
             <div class="metrics-grid">
                 <div class="metric-card card-purple">
                     <div class="metric-info">
@@ -105,7 +105,7 @@
                 </div>
             </div>
 
-            <!-- DOUBLE PANEL (RECENT VOLUNTEERS & AREA CHART) -->
+            <!-- PAINEL DUPLO (VOLUNTÁRIOS RECENTES E DISTRIBUIÇÃO POR ÁREA) -->
             <div class="dashboard-panels">
                 <div class="panel list-panel">
                     <h2>Novos Voluntários</h2>
@@ -130,14 +130,14 @@
                 <div class="panel distribution-panel">
                     <h2>Demandas por Área</h2>
                     <div class="dist-list" id="area-distribution-list">
-                        <!-- Filled dynamically -->
+                        <!-- Preenchido dinamicamente -->
                         <div class="empty-dist">Sem dados para exibir</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION: VOLUNTEERS -->
+        <!-- SEÇÃO: VOLUNTÁRIOS -->
         <section id="sec-voluntarios" class="admin-section">
             <div class="panel full-panel">
                 <div class="panel-header">
@@ -180,14 +180,14 @@
                             </tr>
                         </thead>
                         <tbody id="tbl-all-voluntarios">
-                            <!-- Filled dynamically -->
+                            <!-- Preenchido dinamicamente -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION: DONATIONS -->
+        <!-- SEÇÃO: DOAÇÕES -->
         <section id="sec-doacoes" class="admin-section">
             <div class="panel full-panel">
                 <div class="panel-header">
@@ -206,7 +206,7 @@
                             </tr>
                         </thead>
                         <tbody id="tbl-all-doacoes">
-                            <!-- Filled dynamically -->
+                            <!-- Preenchido dinamicamente -->
                         </tbody>
                     </table>
                 </div>
@@ -215,9 +215,9 @@
     </main>
 </div>
 
-<!-- JAVASCRIPT ADMIN PANEL -->
+<!-- PAINEL DO ADMINISTRADOR EM JAVASCRIPT -->
 <script>
-    const API_URL = window.location.protocol === 'file:' ? 'http://127.0.0.1:8000' : ''; // Supporting file:// and http:// protocols
+    const API_URL = window.location.protocol === 'file:' ? 'http://127.0.0.1:8000' : ''; // Suporta protocolos file:// e http://
     let token = localStorage.getItem('gaiarb_admin_token') || null;
     let cachedVolunteers = [];
 
@@ -261,7 +261,7 @@
                 localStorage.setItem('gaiarb_admin_name', data.admin.nome);
                 
                 exibirPainel();
-                // Clear fields
+                // Limpa os campos
                 userEl.value = '';
                 passEl.value = '';
             }
@@ -300,7 +300,7 @@
         
         document.getElementById(`sec-${secId}`).classList.add('active');
         
-        // Find corresponding button
+        // Encontra o botão correspondente
         const clickedBtn = Array.from(document.querySelectorAll('.menu-btn')).find(b => b.textContent.includes(secId === 'dashboard' ? 'Painel Geral' : secId === 'voluntarios' ? 'Voluntários' : 'Doações'));
         if (clickedBtn) clickedBtn.classList.add('ativo');
     }
@@ -308,10 +308,10 @@
     function carregarDados() {
         if (!token) return;
 
-        // Headers object
+        // Objeto de cabeçalhos
         const headers = { 'Authorization': `Bearer ${token}` };
 
-        // 1. Load Stats
+        // 1. Carrega as estatísticas
         fetch(API_URL + '/api/admin/stats', { headers })
         .then(res => res.json())
         .then(data => {
@@ -324,14 +324,14 @@
                 currency: "BRL"
             });
 
-            // Set Top Area
+            // Define a área principal
             if (data.areas_dist && data.areas_dist.length > 0) {
-                document.getElementById('stat-top-area').textContent = data.areas_dist[0].area.split(' ')[0]; // short name
+                document.getElementById('stat-top-area').textContent = data.areas_dist[0].area.split(' ')[0]; // nome curto
             } else {
                 document.getElementById('stat-top-area').textContent = 'Nenhuma';
             }
 
-            // Fill Area Distribution UI
+            // Preenche a distribuição por área na interface
             const distWrap = document.getElementById('area-distribution-list');
             distWrap.innerHTML = '';
             
@@ -367,7 +367,7 @@
             cachedVolunteers = data;
             renderVolunteers(data);
             
-            // Render short list for Dashboard
+            // Renderiza lista simplificada para o Painel Geral
             const tblRecent = document.getElementById('tbl-recent-voluntarios');
             tblRecent.innerHTML = '';
             if (data && data.length > 0) {

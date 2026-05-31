@@ -1,6 +1,7 @@
-   /* GAIARB – doe.css (Organic NGO Redesign) */
+/* GAIARB – doe.css */
 
-/* .doe-hero { */
+/* Seção Inicial */
+.doe-hero {
     padding: 80px 0;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
@@ -92,7 +93,8 @@
     margin: 0;
 }
 
-/* .doe-dashboard-section { */
+/* Área de Doação Direta */
+.doe-dashboard-section {
     padding: 80px 0;
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -206,7 +208,7 @@
     display: block;
 }
 
-/* Estilo da Saida do PIX */
+/* Estilização da Saída do PIX */
 .pix-output-wrap {
     display: flex;
     flex-direction: column;
@@ -289,7 +291,7 @@
     text-align: center;
 }
 
-/* Formulario de detalhes do cartao */
+/* Formulário de dados do cartão */
 .cartao-form {
     display: flex;
     flex-direction: column;
@@ -313,7 +315,7 @@
     gap: 16px;
 }
 
-/* Estilo do Boleto */
+/* Estilização do Boleto */
 .boleto-output {
     display: flex;
     flex-direction: column;
@@ -326,7 +328,8 @@
     margin-bottom: 24px;
 }
 
-/* .formas-section { */
+/* Outras Formas de Doação */
+.formas-section {
     padding: 80px 0;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
@@ -388,7 +391,8 @@
     background: #fdf5f2;
 }
 
-/* .impacto-section { */
+/* Seção de Impacto */
+.impacto-section {
     padding: 80px 0;
     background: var(--white);
     text-align: center;
@@ -439,7 +443,8 @@
     line-height: 1.5;
 }
 
-/* @media screen and (max-width: 992px) { */
+/* Responsividade */
+@media screen and (max-width: 992px) {
     .doe-hero .container {
         grid-template-columns: 1fr;
         gap: 40px;

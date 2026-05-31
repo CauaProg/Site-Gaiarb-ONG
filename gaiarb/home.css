@@ -1,6 +1,7 @@
-   /* GAIARB – home.css (Organic NGO Redesign) */
+/* GAIARB – home.css */
 
-/* .hero-section { */
+/* Seção de Apresentação (Hero) */
+.hero-section {
     padding: 80px 0;
     background-color: var(--bg);
     border-bottom: 1px solid var(--border);
@@ -70,7 +71,7 @@
     pointer-events: none;
 }
 
-/* Centered Hero Banner Layout */
+/* Layout do Banner Centralizado */
 .hero-container-banner {
     display: flex;
     flex-direction: column;
@@ -127,7 +128,8 @@
     pointer-events: none;
 }
 
-/* .stats-section { */
+/* Seção de Estatísticas */
+.stats-section {
     padding: 60px 0;
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -178,7 +180,8 @@
     margin-top: 4px;
 }
 
-/* .about-brief-section { */
+/* Seção Quem Somos */
+.about-brief-section {
     padding: 80px 0;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
@@ -273,7 +276,8 @@
     color: var(--text);
 }
 
-/* .how-to-help-section { */
+/* Seção Como Ajudar */
+.how-to-help-section {
     padding: 80px 0;
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -383,7 +387,8 @@
     color: var(--secondary);
 }
 
-/* .testimonials-section { */
+/* Seção de Depoimentos */
+.testimonials-section {
     padding: 80px 0;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
@@ -469,7 +474,8 @@
     color: var(--text-light);
 }
 
-/* .faq-section { */
+/* Seção de FAQ */
+.faq-section {
     padding: 80px 0;
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -526,7 +532,8 @@
     transform: rotate(45deg);
 }
 
-/* .newsletter-section { */
+/* Seção de Newsletter */
+.newsletter-section {
     padding: 60px 0;
     background: var(--primary-light);
     border-bottom: 1px solid var(--border);
@@ -581,7 +588,8 @@
     flex-shrink: 0;
 }
 
-/* @media screen and (max-width: 992px) { */
+/* Design Responsivo */
+@media screen and (max-width: 992px) {
     .hero-container {
         grid-template-columns: 1fr;
         gap: 40px;
@@ -688,7 +696,8 @@
     }
 }
 
-/* .video-section { */
+/* Seção de Vídeo */
+.video-section {
     padding: 80px 0;
     background-color: var(--white);
     border-bottom: 1px solid var(--border);
@@ -715,7 +724,8 @@
     text-align: center;
 }
 
-/* .g1-report-card { */
+/* Cartão de Reportagem do G1 */
+.g1-report-card {
     display: grid;
     grid-template-columns: 1.1fr 1.3fr;
     gap: 40px;
