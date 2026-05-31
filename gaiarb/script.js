@@ -1,50 +1,44 @@
-/* ═══════════════════════════════════════════════
-   GAIARB – script.js
-   ═══════════════════════════════════════════════ */
+// script.js - Scripts do GAIARB
 
-// ── VARIÁVEIS GLOBAIS ────────────────────────────
+// VARIÁVEIS GLOBAIS
 let valorSelecionado = 50;
 let currentPixPayload = "";
 let qrInstance = null;
 const apiBase = window.location.protocol === 'file:' ? 'http://127.0.0.1:8000' : '';
 
-/* ═══════════════════════════════════════════════
-   INICIALIZAÇÃO
-   ═══════════════════════════════════════════════ */
+   // INICIALIZAÇÃO
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Animações de entrada ao scroll
+    // Animacoes ao rolar a pagina
     iniciarScrollAnimations();
 
-    // Highlight link ativo no header
+    // Destacar o link ativo do menu
     marcarLinkAtivo();
 
-    // Contador animado nos stats (home)
+    // Numeros animados na home
     iniciarContadores();
 
-    // Partículas flutuantes no hero (home)
+    // Particulas flutuantes no banner
     criarParticulasHero();
 
-    // Efeito parallax leve no banner
+    // Efeito de rolagem leve no banner
     iniciarParallax();
 
-    // Fade-in nas seções
+    // Efeito de surgimento gradual nas secoes
     iniciarFadeInSections();
 
-    // Carregamento dinâmico do Banco de Dados
+    // Carregar dados da equipe dinamicamente
     carregarEquipeDinamica();
 
-    // Inicialização da página de doações
+    // Inicializar as doacoes
     inicializarPaginaDoacao();
 
-    // Injetar estética global de pintura e desenho
+    // Injetar os elementos artisticos na pagina
     injectGlobalAesthetics();
 });
 
 
-/* ═══════════════════════════════════════════════
-   ANIMAÇÕES DE SCROLL
-   ═══════════════════════════════════════════════ */
+   // ANIMAÇÕES DE SCROLL
 function iniciarScrollAnimations() {
     const seletores = [
         ".membro-linha",
@@ -80,7 +74,7 @@ function iniciarScrollAnimations() {
     });
 }
 
-// Classe adicionada pelo observer
+// Estilos injetados para as animacoes
 document.addEventListener("DOMContentLoaded", () => {
     const style = document.createElement("style");
     style.textContent = ".visivel-scroll { opacity: 1 !important; transform: translateY(0) !important; }";
@@ -88,9 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-/* ═══════════════════════════════════════════════
-   LINK ATIVO NO HEADER
-   ═══════════════════════════════════════════════ */
+// LINK ATIVO NO HEADER
 function marcarLinkAtivo() {
     const pagina = window.location.pathname.split("/").pop() || "index.html";
     document.querySelectorAll(".alllinks a").forEach(link => {
@@ -113,9 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-/* ═══════════════════════════════════════════════
-   CONTADORES ANIMADOS (HOME)
-   ═══════════════════════════════════════════════ */
+   // CONTADORES ANIMADOS (HOME)
 function iniciarContadores() {
     const statsBar = document.querySelector(".stats-bar");
     if (!statsBar) return;
@@ -148,9 +138,7 @@ function animarContador(el, alvo, sufixo) {
 }
 
 
-/* ═══════════════════════════════════════════════
-   PARTÍCULAS HERO (HOME)
-   ═══════════════════════════════════════════════ */
+   // PARTÍCULAS HERO (HOME)
 function criarParticulasHero() {
     const hero = document.querySelector(".hero");
     if (!hero) return;
@@ -185,9 +173,7 @@ function criarParticulasHero() {
 }
 
 
-/* ═══════════════════════════════════════════════
-   PARALLAX LEVE NO BANNER
-   ═══════════════════════════════════════════════ */
+// PARALLAX LEVE NO BANNER
 function iniciarParallax() {
     const banner = document.querySelector(".banner");
     if (!banner) return;
@@ -198,9 +184,7 @@ function iniciarParallax() {
 }
 
 
-/* ═══════════════════════════════════════════════
-   FADE-IN DAS SEÇÕES GRANDES
-   ═══════════════════════════════════════════════ */
+   // FADE-IN DAS SEÇÕES GRANDES
 function iniciarFadeInSections() {
     const secoes = document.querySelectorAll(".secao, .quem-somos, .como-ajudar, .mvv-section, .valores-section");
     const obs = new IntersectionObserver((entries) => {
@@ -222,9 +206,7 @@ function iniciarFadeInSections() {
 }
 
 
-/* ═══════════════════════════════════════════════
-   DOAÇÃO – SISTEMA SIMPLIFICADO PIX
-   ═══════════════════════════════════════════════ */
+   // DOAÇÃO – SISTEMA SIMPLIFICADO PIX
 let activeDoeTab = 'pix';
 
 function switchDoeTab(tab) {
@@ -235,7 +217,7 @@ function inicializarPaginaDoacao() {
     const qrEl = document.getElementById("staticPixQrCode");
     if (!qrEl) return;
     
-    // Generate static payload with no amount to let the donor choose
+    // Gerar o payload do Pix sem valor fixo para livre escolha
     const pixPayload = generatePixPayload("67c3117b-28f1-4ac2-94a6-c4bc3121807f", 0, "GAIARB", "RIO DE JANEIRO");
     currentPixPayload = pixPayload;
     
@@ -281,16 +263,16 @@ function gerarDoacaoMercadoPago() {
     })
     .then(data => {
         if (data.success) {
-            // Update current payload
+            // Atualizar o codigo do Pix atual
             currentPixPayload = data.qr_code;
             
-            // Update Copia e Cola text
+            // Atualizar o texto do Pix copia e cola
             const ccText = document.getElementById("pixCopiaColaText");
             if (ccText) {
                 ccText.textContent = data.qr_code;
             }
             
-            // Update QR Code image
+            // Atualizar a imagem do QR Code
             const qrEl = document.getElementById("staticPixQrCode");
             if (qrEl) {
                 if (data.qr_code_base64) {
@@ -301,7 +283,7 @@ function gerarDoacaoMercadoPago() {
                 }
             }
             
-            // Update status badge
+            // Atualizar o indicador de status
             const badge = document.getElementById("mp-status-badge");
             if (badge) {
                 badge.textContent = data.provider === "mercadopago" ? "Mercado Pago Ativo" : "Mercado Pago (Simulado)";
@@ -317,8 +299,8 @@ function gerarDoacaoMercadoPago() {
         }
     })
     .catch(err => {
-        console.warn("Backend offline or request failed, generating local simulation.", err);
-        // Fallback to local simulation
+        console.warn("Servidor offline, gerando Pix local.", err);
+        // Simulacao local se o servidor nao responder
         const simulatedPayload = generatePixPayload("67c3117b-28f1-4ac2-94a6-c4bc3121807f", val, "GAIARB", "RIO DE JANEIRO");
         currentPixPayload = simulatedPayload;
         
@@ -387,7 +369,7 @@ function registrarDoacaoNoBanco() {
         if (nameInput) nameInput.value = "";
     })
     .catch(err => {
-        console.warn("Backend offline, simulating local log.");
+        console.warn("Servidor offline, simulando registro local.");
         if (successMsg) {
             successMsg.textContent = `Doação de R$ ${val.toFixed(2)} registrada com sucesso (Modo offline). Obrigado!`;
             successMsg.style.display = "block";
@@ -486,9 +468,7 @@ function generatePixPayload(key, amount, name, city) {
 }
 
 
-/* ═══════════════════════════════════════════════
-   GALERIA – FILTROS
-   ═══════════════════════════════════════════════ */
+   // GALERIA – FILTROS
 function filtrar(btn, categoria) {
     document.querySelectorAll(".filtro-btn").forEach(b => b.classList.remove("ativo"));
     btn.classList.add("ativo");
@@ -529,9 +509,7 @@ function filtrar(btn, categoria) {
 }
 
 
-/* ═══════════════════════════════════════════════
-   GALERIA – LIGHTBOX
-   ═══════════════════════════════════════════════ */
+   // GALERIA – LIGHTBOX
 function abrirLightbox(item) {
     const lb       = document.getElementById("lightbox");
     const conteudo = document.getElementById("lightboxConteudo");
@@ -551,9 +529,7 @@ function fecharLightbox(event) {
 }
 
 
-/* ═══════════════════════════════════════════════
-   FORMULÁRIO DE VOLUNTÁRIO
-   ═══════════════════════════════════════════════ */
+   // FORMULÁRIO DE VOLUNTÁRIO
 function enviarFormVoluntario() {
     const nome  = document.getElementById("vol-nome")?.value.trim();
     const email = document.getElementById("vol-email")?.value.trim();
@@ -612,7 +588,7 @@ function enviarFormVoluntario() {
         });
     })
     .catch(err => {
-        console.warn("Backend offline, saving application client-side simulation.");
+        console.warn("Servidor offline, salvando dados localmente.");
         if (statusMsg) {
             statusMsg.style.color = "var(--secondary)";
             statusMsg.textContent = `Obrigado, ${nome}! Cadastro recebido (Modo offline).`;
@@ -633,9 +609,7 @@ function enviarFormVoluntario() {
     });
 }
 
-/* ═══════════════════════════════════════════════
-   INTEGRAÇÃO DINÂMICA DO BANCO DE DADOS (APIs)
-   ═══════════════════════════════════════════════ */
+   // INTEGRAÇÃO DINÂMICA DO BANCO DE DADOS (APIs)
 
 function carregarEquipeDinamica() {
     const lista = document.querySelector('.equipe-lista');
@@ -668,7 +642,7 @@ function carregarEquipeDinamica() {
     });
 }
 
-// FAQ Accordion Toggle
+// Alternar as respostas do FAQ
 document.addEventListener("DOMContentLoaded", () => {
     const faqQuestions = document.querySelectorAll(".faq-question");
     faqQuestions.forEach(btn => {
@@ -677,7 +651,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const answer = item.querySelector(".faq-answer");
             const isActive = item.classList.contains("active");
             
-            // Close all other faq items first
+            // Fecha as outras perguntas do FAQ
             document.querySelectorAll(".faq-item").forEach(otherItem => {
                 otherItem.classList.remove("active");
                 otherItem.querySelector(".faq-answer").style.maxHeight = null;
@@ -735,43 +709,41 @@ function getSunflowerSVG() {
     return sfSvg;
 }
 
-/* ═══════════════════════════════════════════════
-   ESTÉTICA GLOBAL: INJEÇÃO DE ARTE, TINTA E DESENHO
-   ═══════════════════════════════════════════════ */
+   // ESTÉTICA GLOBAL: INJEÇÃO DE ARTE, TINTA E DESENHO
 function injectGlobalAesthetics() {
-    // 1. SVGs dos respingos de tinta
+    // 1. Desenhos em formato de tinta
     const splattersSvg = [
         `<svg viewBox="0 0 100 100"><path d="M30,30 C50,10 80,20 80,45 C80,70 60,85 40,85 C20,85 10,60 10,45 C10,30 10,50 30,30 Z" fill="currentColor"/><circle cx="85" cy="30" r="3.5" fill="currentColor"/><circle cx="15" cy="75" r="2.5" fill="currentColor"/><circle cx="50" cy="5" r="2" fill="currentColor"/></svg>`,
         `<svg viewBox="0 0 100 100"><path d="M40,25 C65,15 85,40 75,70 C65,100 35,90 25,75 C15,60 15,35 40,25 Z" fill="currentColor"/><circle cx="80" cy="85" r="2.5" fill="currentColor"/><circle cx="20" cy="15" r="3.5" fill="currentColor"/><circle cx="55" cy="8" r="2" fill="currentColor"/></svg>`,
         `<svg viewBox="0 0 100 100"><path d="M35,20 C60,10 80,30 80,55 C80,80 50,90 35,75 C20,60 10,30 35,20 Z" fill="currentColor"/><circle cx="85" cy="65" r="2.5" fill="currentColor"/><circle cx="15" cy="20" r="2" fill="currentColor"/><circle cx="70" cy="85" r="1.5" fill="currentColor"/></svg>`
     ];
 
-    // 2. Injetar respingos estruturados nos fundos das seções
+    // 2. Injetar respingos nas secoes
     const sections = document.querySelectorAll(".secao, .hero-section, .about-brief-section, .how-to-help-section, .testimonials-section, .faq-section, .about-section, .team-section, .voluntario-editorial-section, .login-wrapper, .video-section");
     sections.forEach((sec, idx) => {
-        // Garantir que a seção tenha position relative para posicionar os splatters
+        // Define a posicao correta na secao
         const secStyle = window.getComputedStyle(sec);
         if (secStyle.position === 'static') {
             sec.style.position = 'relative';
         }
 
-        // Criar splatter 1 (esquerda)
+        // Cria o primeiro respingo de tinta (esquerda)
         const s1 = document.createElement("div");
         const shapeIdx1 = idx % 3;
         s1.className = `paint-splatter-bg splatter-${shapeIdx1 + 1}`;
         s1.innerHTML = splattersSvg[shapeIdx1];
         
-        // Cores alternadas da paleta
+        // Alternar cores da paleta da ONG
         const colors = ["var(--primary)", "var(--secondary)", "var(--accent)"];
         s1.style.color = colors[idx % colors.length];
         
-        // Posicionamento alternado
+        // Posicao alternada
         s1.style.left = `${5 + (idx * 7) % 15}%`;
         s1.style.top = `${10 + (idx * 13) % 40}%`;
         s1.style.transform = `rotate(${(idx * 45) % 360}deg) scale(${0.8 + (idx * 0.1) % 0.5})`;
         sec.appendChild(s1);
 
-        // Criar splatter 2 (direita) em seções maiores
+        // Cria o segundo respingo (direita) em secoes maiores
         if (sec.offsetHeight > 300) {
             const s2 = document.createElement("div");
             const shapeIdx2 = (idx + 1) % 3;
@@ -784,7 +756,7 @@ function injectGlobalAesthetics() {
             sec.appendChild(s2);
         }
 
-        // Injetar DOIS girassóis decorativos de fundo por seção (diagonais opostas)
+        // Injetar dois girassois decorativos por secao
         const sunflower1 = document.createElement("div");
         const sfColor1 = idx % 2 === 0 ? 'sunflower-gray' : 'sunflower-green';
         const sfSize1 = idx % 3 === 0 ? 'sunflower-size-1' : 'sunflower-size-2';
@@ -797,7 +769,7 @@ function injectGlobalAesthetics() {
         sunflower2.className = `sunflower-bg ${sfColor2} ${sfSize2}`;
         sunflower2.innerHTML = getSunflowerSVG();
 
-        // Posicionar alternando entre diagonais opostas
+        // Posiciona nas diagonais opostas
         if (idx % 2 === 0) {
             sunflower1.style.right = `${8 + (idx * 7) % 18}%`;
             sunflower1.style.top = `${8 + (idx * 13) % 25}%`;
@@ -819,10 +791,10 @@ function injectGlobalAesthetics() {
         sec.appendChild(sunflower2);
     });
 
-    // 3. Efeito de Quadro (Molduras) e Rotação Randômica Realista
+    // 3. Efeito de moldura de quadro e rotacao leve aleatoria
     const frames = document.querySelectorAll('.secao-img, .grid-img-large, .grid-img-small, .about-img, .about-image-wrapper .about-img, .about-img');
     frames.forEach((el, index) => {
-        // Rotação entre -1.2deg e +1.2deg para simular quadros reais pendurados
+        // Rotaciona ligeiramente para parecer quadros reais
         const angle = (Math.random() * 2.4 - 1.2).toFixed(2);
         el.style.transform = `rotate(${angle}deg)`;
         
@@ -834,12 +806,12 @@ function injectGlobalAesthetics() {
         });
     });
 
-    // 4. Inserir desenhos (sketches) decorativos à mão livre
+    // 4. Desenhos decorativos feitos a mao
     
-    // Setas apontando para ações importantes
+    // Setas apontando para acoes importantes
     const buttonsToArrow = document.querySelectorAll(".hero-actions .btn-primary, .vol-form-col .btn-primary, .newsletter-form .btn-primary, .btn-doe");
     buttonsToArrow.forEach((btn, idx) => {
-        // Evita duplicar setas no header
+        // Evita duplicar setas no cabecalho
         if (btn.classList.contains("btn-doe") && idx > 0) return;
         
         const parent = btn.parentNode;
@@ -850,7 +822,7 @@ function injectGlobalAesthetics() {
 
         const arrow = document.createElement("div");
         arrow.className = "sketch-element sketch-arrow";
-        // SVG seta rabiscada
+        // SVG da seta
         arrow.innerHTML = `
             <svg viewBox="0 0 50 30">
                 <path d="M5,20 Q20,5 42,10 M42,10 L32,3 M42,10 L34,19" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -858,7 +830,7 @@ function injectGlobalAesthetics() {
         `;
         arrow.style.color = "var(--secondary)";
         
-        // Posicionar ligeiramente acima e à esquerda do botão
+        // Posicionar proximo ao botao
         arrow.style.position = "absolute";
         arrow.style.top = "-24px";
         arrow.style.left = "-38px";
@@ -867,7 +839,7 @@ function injectGlobalAesthetics() {
         parent.appendChild(arrow);
     });
 
-    // Estrelas brilhantes ao lado de cabeçalhos ou destaques
+    // Estrelas ao lado dos titulos
     const titles = document.querySelectorAll(".section-title, .help-title, .vol-title, .member-name, .form-title");
     titles.forEach((title, idx) => {
         const titleStyle = window.getComputedStyle(title);
@@ -877,7 +849,7 @@ function injectGlobalAesthetics() {
 
         const star = document.createElement("div");
         star.className = "sketch-element sketch-star";
-        // SVG estrela rabiscada
+        // SVG da estrela
         star.innerHTML = `
             <svg viewBox="0 0 24 24">
                 <path d="M12,2 L14.5,9 L22,9 L16,13.5 L18.5,21 L12,16.5 L5.5,21 L8,13.5 L2,9 L9.5,9 Z" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -890,7 +862,7 @@ function injectGlobalAesthetics() {
         title.appendChild(star);
     });
 
-    // Espirais rabiscadas nos cantos dos cards maiores
+    // Espirais nos cantos dos blocos maiores
     const largeCards = document.querySelectorAll(".team-card, .vol-form-col, .login-card, .registro-doacao-box");
     largeCards.forEach((card, idx) => {
         const cardStyle = window.getComputedStyle(card);
@@ -900,7 +872,7 @@ function injectGlobalAesthetics() {
 
         const swirl = document.createElement("div");
         swirl.className = "sketch-element sketch-swirl";
-        // SVG espiral
+        // SVG da espiral
         swirl.innerHTML = `
             <svg viewBox="0 0 40 40">
                 <path d="M20,20 C25,15 25,25 20,25 C15,25 15,15 20,10 C27,10 27,27 20,30 C10,30 8,12 20,5 C35,0 38,32 20,37" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>

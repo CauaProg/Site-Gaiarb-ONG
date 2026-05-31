@@ -1,6 +1,4 @@
-# ═══════════════════════════════════════════════
-# GAIARB – BACKEND SERVER (FLASK / MYSQL / SQLITE)
-# ═══════════════════════════════════════════════
+# Servidor Backend do GAIARB
 
 import os
 import json
@@ -80,13 +78,13 @@ def run_db_query(query, params=None):
 
 def init_db():
     global MYSQL_ACTIVE
-    # 1. Try MySQL Connection via mysql.connector
+    # 1. Tenta conexao com o MySQL
     try:
         db_name = os.environ.get("DB_NAME", "bd_teste_01")
         print(f"Attempting to connect to MySQL database '{db_name}'...")
         
         if os.environ.get("DB_NAME"):
-            # Cloud DB setup: connect directly to database
+            # Banco na nuvem: conecta diretamente
             conn = mysql.connector.connect(
                 host=os.environ.get("DB_HOST"),
                 port=int(os.environ.get("DB_PORT", 3306)),
@@ -95,7 +93,7 @@ def init_db():
                 database=db_name
             )
         else:
-            # Local setup: try creating database first
+            # Setup local: tenta criar o banco se nao existir
             conn = mysql.connector.connect(
                 host=os.environ.get("DB_HOST", "localhost"),
                 port=int(os.environ.get("DB_PORT", 3306)),
@@ -107,7 +105,7 @@ def init_db():
             conn.commit()
             conn.close()
             
-            # Connect to target database
+            # Conecta ao banco de dados
             conn = mysql.connector.connect(
                 host=os.environ.get("DB_HOST", "localhost"),
                 port=int(os.environ.get("DB_PORT", 3306)),
@@ -117,7 +115,7 @@ def init_db():
             )
         cursor = conn.cursor()
         
-        # Create admins
+        # Cria tabela de administradores
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS admins (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -128,7 +126,7 @@ def init_db():
             )
         """)
         
-        # Create voluntarios
+        # Cria tabela de voluntarios
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS voluntarios (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -142,13 +140,13 @@ def init_db():
                 data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         """)
-        # Ensure status column exists in MySQL (if table already existed)
+        # Garante que a coluna status existe no MySQL
         try:
             cursor.execute("ALTER TABLE voluntarios ADD COLUMN status VARCHAR(20) DEFAULT 'Pendente'")
         except Exception:
             pass
         
-        # Create doacoes
+        # Cria tabela de doacoes
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS doacoes (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -159,7 +157,7 @@ def init_db():
             )
         """)
         
-        # Create equipe
+        # Cria tabela da equipe
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS equipe (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -171,7 +169,7 @@ def init_db():
             )
         """)
         
-        # Seed default admin if empty
+        # Cria o admin padrao se a tabela estiver vazia
         cursor.execute("SELECT COUNT(*) FROM admins")
         if cursor.fetchone()[0] == 0:
             cursor.execute("""
@@ -179,7 +177,7 @@ def init_db():
                 VALUES ('admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Administrador GAIARB')
             """)
             
-        # Seed test admin if empty
+        # Cria o admin de teste se nao existir
         cursor.execute("SELECT COUNT(*) FROM admins WHERE username = 'teste1'")
         if cursor.fetchone()[0] == 0:
             cursor.execute("""
@@ -187,7 +185,7 @@ def init_db():
                 VALUES ('teste1', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Administrador Teste')
             """)
             
-        # Seed team if empty
+        # Preenche a equipe se estiver vazia
         cursor.execute("SELECT COUNT(*) FROM equipe")
         if cursor.fetchone()[0] == 0:
             members = [
@@ -213,7 +211,7 @@ def init_db():
         print(f"MySQL initialization failed: {e}. Falling back to SQLite.")
         MYSQL_ACTIVE = False
         
-    # 2. SQLite Fallback Setup
+    # 2. Fallback para SQLite local
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute("""
@@ -262,7 +260,7 @@ def init_db():
         )
     """)
     
-    # Seed default admin if empty
+    # Cria o admin padrao se a tabela estiver vazia
     cursor.execute("SELECT COUNT(*) FROM admins")
     if cursor.fetchone()[0] == 0:
         cursor.execute("""
@@ -270,7 +268,7 @@ def init_db():
             VALUES ('admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Administrador GAIARB')
         """)
         
-    # Seed test admin if empty
+    # Cria o admin de teste se nao existir
     cursor.execute("SELECT COUNT(*) FROM admins WHERE username = 'teste1'")
     if cursor.fetchone()[0] == 0:
         cursor.execute("""
@@ -278,7 +276,7 @@ def init_db():
             VALUES ('teste1', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Administrador Teste')
         """)
         
-    # Seed team if empty
+    # Preenche a equipe se estiver vazia
     cursor.execute("SELECT COUNT(*) FROM equipe")
     if cursor.fetchone()[0] == 0:
         members = [
@@ -300,9 +298,9 @@ def init_db():
     MYSQL_ACTIVE = False
     print("Successfully initialized and configured local SQLite fallback!")
 
-# (Static web serving routes moved to the bottom of the file)
+# (Servico de arquivos estaticos movido para o final)
 
-# ── EMAIL WELCOME FUNCTION ──────────────────
+# Funcao de envio de email de boas-vindas
 def send_welcome_email_async(to_email, volunteer_name):
     from email.utils import make_msgid, formatdate
     SMTP_SERVER = os.environ.get("SMTP_SERVER", "smtp.gmail.com")
@@ -389,7 +387,7 @@ Este é um e-mail automático enviado pelo sistema de voluntários do GAIARB.
     thread = threading.Thread(target=send_email)
     thread.start()
 
-# ── API ENDPOINTS ─────────────────────────────
+# Rotas da API
 
 @app.route('/api/admin/login', methods=['POST'])
 def admin_login():
@@ -495,7 +493,7 @@ def admin_aprovar_voluntario():
     if not vid:
         return jsonify({"success": False, "error": "ID do voluntário é obrigatório"}), 400
     try:
-        # Fetch candidate name and email
+        # Busca o nome e email do candidato
         vols = run_db_query("SELECT nome, email FROM voluntarios WHERE id = ?", (vid,))
         if vols:
             vol = vols[0]
@@ -552,7 +550,7 @@ def get_equipe():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# ── POST ENDPOINTS (PUBLIC) ───────────────────
+# Rotas publicas
 
 @app.route('/api/voluntarios', methods=['POST'])
 def register_voluntario():
@@ -584,7 +582,7 @@ def register_doacao_mercadopago():
     valor = float(valor)
     access_token = os.environ.get("MERCADOPAGO_ACCESS_TOKEN", "[CONFIDENCIAL]")
     
-    # 1. Attempt to call Mercado Pago SDK
+    # 1. Tenta usar a API oficial do Mercado Pago
     try:
         import uuid
         import mercadopago
@@ -618,7 +616,7 @@ def register_doacao_mercadopago():
             payment_id = res_json.get("id")
             
             if qr_code:
-                # Log donation as 'Pendente' in database
+                # Registra a doacao como pendente no banco
                 last_id = run_db_query(
                     "INSERT INTO doacoes (valor, tipo, status) VALUES (?, ?, ?)",
                     (valor, 'PIX', 'Pendente')
@@ -636,7 +634,7 @@ def register_doacao_mercadopago():
     except Exception as e:
         print("Mercado Pago SDK failed, falling back to local simulation:", e)
                 
-    # 2. Fallback to Local Simulation
+    # 2. Simulacao local caso a API falhe
     import uuid
     last_id = run_db_query(
         "INSERT INTO doacoes (valor, tipo, status) VALUES (?, ?, ?)",
@@ -695,7 +693,7 @@ def mercadopago_webhook():
         
     print(f"Webhook received for payment_id: {payment_id}")
     
-    # 1. Support simulated local webhooks for development testing
+    # 1. Suporte a webhook simulado localmente
     if str(payment_id).startswith("simulado-"):
         parts = str(payment_id).split('-')
         if len(parts) >= 3:
@@ -713,7 +711,7 @@ def mercadopago_webhook():
                 return jsonify({"success": True, "message": "[Simulado] Status atualizado", "db_id": db_id, "status": db_status})
             return jsonify({"success": False, "message": "Nenhuma doacao pendente encontrada no valor informado"}), 404
             
-    # 2. Live query using Mercado Pago SDK
+    # 2. Consulta o status na API oficial do Mercado Pago
     access_token = os.environ.get("MERCADOPAGO_ACCESS_TOKEN", "[CONFIDENCIAL]")
     try:
         import mercadopago
@@ -768,7 +766,7 @@ def register_doacao():
     )
     return jsonify({"success": True, "id": last_id})
 
-# ── CRUD ENDPOINTS (DESKTOP GUI CLIENT / ADMIN ACCESS) ──
+# Rotas de administracao
 
 @app.route('/api/voluntarios/<int:vid>', methods=['DELETE'])
 def delete_voluntario(vid):
@@ -803,7 +801,7 @@ def delete_equipe(eid):
     run_db_query("DELETE FROM equipe WHERE id = ?", (eid,))
     return jsonify({"success": True, "message": "Membro da equipe deletado."})
 
-# ── FLASK STATIC WEB SERVING ──────────────────
+# Servico de arquivos estaticos
 @app.route('/')
 def home():
     return send_from_directory('.', 'index.html')
