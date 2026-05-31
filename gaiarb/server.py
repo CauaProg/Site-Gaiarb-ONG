@@ -38,13 +38,26 @@ def calculate_crc16(data: str) -> str:
 
 def get_connection():
     if MYSQL_ACTIVE:
-        return mysql.connector.connect(
-            host=os.environ.get("DB_HOST", "localhost"),
-            port=int(os.environ.get("DB_PORT", 3306)),
-            user=os.environ.get("DB_USER", "root"),
-            password=os.environ.get("DB_PASSWORD", "[CONFIDENCIAL]"),
-            database=os.environ.get("DB_NAME", "bd_teste_01")
-        )
+        if os.environ.get("DB_NAME"):
+            # Banco na nuvem: conecta com SSL
+            return mysql.connector.connect(
+                host=os.environ.get("DB_HOST"),
+                port=int(os.environ.get("DB_PORT", 3306)),
+                user=os.environ.get("DB_USER"),
+                password=os.environ.get("DB_PASSWORD"),
+                database=os.environ.get("DB_NAME"),
+                ssl_verify_cert=False,
+                ssl_verify_identity=False
+            )
+        else:
+            # Setup local: sem SSL
+            return mysql.connector.connect(
+                host=os.environ.get("DB_HOST", "localhost"),
+                port=int(os.environ.get("DB_PORT", 3306)),
+                user=os.environ.get("DB_USER", "root"),
+                password=os.environ.get("DB_PASSWORD", "[CONFIDENCIAL]"),
+                database=os.environ.get("DB_NAME", "bd_teste_01")
+            )
     else:
         conn = sqlite3.connect(DB_FILE)
         conn.row_factory = sqlite3.Row
@@ -84,13 +97,15 @@ def init_db():
         print(f"Attempting to connect to MySQL database '{db_name}'...")
         
         if os.environ.get("DB_NAME"):
-            # Banco na nuvem: conecta diretamente
+            # Banco na nuvem: conecta diretamente com SSL
             conn = mysql.connector.connect(
                 host=os.environ.get("DB_HOST"),
                 port=int(os.environ.get("DB_PORT", 3306)),
                 user=os.environ.get("DB_USER"),
                 password=os.environ.get("DB_PASSWORD"),
-                database=db_name
+                database=db_name,
+                ssl_verify_cert=False,
+                ssl_verify_identity=False
             )
         else:
             # Setup local: tenta criar o banco se nao existir
