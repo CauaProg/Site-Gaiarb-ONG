@@ -315,8 +315,12 @@ def send_welcome_email_async(to_email, volunteer_name):
     from email.utils import make_msgid, formatdate
     SMTP_SERVER = os.environ.get("SMTP_SERVER", "smtp.gmail.com")
     SMTP_PORT = int(os.environ.get("SMTP_PORT", 587))
-    SMTP_USER = os.environ.get("SMTP_USER", "equipegaiarb@gmail.com")
-    SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD", "[CONFIDENCIAL]")
+    SMTP_USER = os.environ.get("SMTP_USER")
+    SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD")
+    
+    if not SMTP_USER or not SMTP_PASSWORD:
+        print("SMTP credentials not configured in environment variables. Email skipped.")
+        return
     
     def send_email():
         try:
@@ -590,59 +594,60 @@ def register_doacao_mercadopago():
         return jsonify({"error": "Valor inválido"}), 400
         
     valor = float(valor)
-    access_token = os.environ.get("MERCADOPAGO_ACCESS_TOKEN", "[CONFIDENCIAL]")
+    access_token = os.environ.get("MERCADOPAGO_ACCESS_TOKEN")
     
     # 1. Tenta usar a API oficial do Mercado Pago
-    try:
-        import uuid
-        import mercadopago
-        
-        sdk = mercadopago.SDK(access_token)
-        
-        payment_data = {
-            "transaction_amount": valor,
-            "description": "Doacao GAIARB",
-            "payment_method_id": "pix",
-            "payer": {
-                "email": "contato@gaiarb.org",
-                "first_name": "Doador",
-                "last_name": "GAIARB"
-            }
-        }
-        
-        request_options = mercadopago.config.RequestOptions()
-        request_options.custom_headers = {
-            "X-Idempotency-Key": str(uuid.uuid4())
-        }
-        
-        payment_response = sdk.payment().create(payment_data, request_options)
-        
-        if payment_response.get("status") in [200, 201]:
-            res_json = payment_response.get("response", {})
-            poi = res_json.get("point_of_interaction", {})
-            tx_data = poi.get("transaction_data", {})
-            qr_code = tx_data.get("qr_code")
-            qr_code_base64 = tx_data.get("qr_code_base64")
-            payment_id = res_json.get("id")
+    if access_token:
+        try:
+            import uuid
+            import mercadopago
             
-            if qr_code:
-                # Registra a doacao como pendente no banco
-                last_id = run_db_query(
-                    "INSERT INTO doacoes (valor, tipo, status) VALUES (?, ?, ?)",
-                    (valor, 'PIX', 'Pendente')
-                )
-                return jsonify({
-                    "success": True,
-                    "provider": "mercadopago",
-                    "payment_id": payment_id,
-                    "qr_code": qr_code,
-                    "qr_code_base64": qr_code_base64,
-                    "db_id": last_id
-                })
-        else:
-            print("Mercado Pago SDK returned status error:", payment_response.get("status"), payment_response.get("response"))
-    except Exception as e:
-        print("Mercado Pago SDK failed, falling back to local simulation:", e)
+            sdk = mercadopago.SDK(access_token)
+        
+            payment_data = {
+                "transaction_amount": valor,
+                "description": "Doacao GAIARB",
+                "payment_method_id": "pix",
+                "payer": {
+                    "email": "contato@gaiarb.org",
+                    "first_name": "Doador",
+                    "last_name": "GAIARB"
+                }
+            }
+            
+            request_options = mercadopago.config.RequestOptions()
+            request_options.custom_headers = {
+                "X-Idempotency-Key": str(uuid.uuid4())
+            }
+            
+            payment_response = sdk.payment().create(payment_data, request_options)
+            
+            if payment_response.get("status") in [200, 201]:
+                res_json = payment_response.get("response", {})
+                poi = res_json.get("point_of_interaction", {})
+                tx_data = poi.get("transaction_data", {})
+                qr_code = tx_data.get("qr_code")
+                qr_code_base64 = tx_data.get("qr_code_base64")
+                payment_id = res_json.get("id")
+                
+                if qr_code:
+                    # Registra a doacao como pendente no banco
+                    last_id = run_db_query(
+                        "INSERT INTO doacoes (valor, tipo, status) VALUES (?, ?, ?)",
+                        (valor, 'PIX', 'Pendente')
+                    )
+                    return jsonify({
+                        "success": True,
+                        "provider": "mercadopago",
+                        "payment_id": payment_id,
+                        "qr_code": qr_code,
+                        "qr_code_base64": qr_code_base64,
+                        "db_id": last_id
+                    })
+            else:
+                print("Mercado Pago SDK returned status error:", payment_response.get("status"), payment_response.get("response"))
+        except Exception as e:
+            print("Mercado Pago SDK failed, falling back to local simulation:", e)
                 
     # 2. Simulacao local caso a API falhe
     import uuid
@@ -722,41 +727,42 @@ def mercadopago_webhook():
             return jsonify({"success": False, "message": "Nenhuma doacao pendente encontrada no valor informado"}), 404
             
     # 2. Consulta o status na API oficial do Mercado Pago
-    access_token = os.environ.get("MERCADOPAGO_ACCESS_TOKEN", "[CONFIDENCIAL]")
-    try:
-        import mercadopago
-        sdk = mercadopago.SDK(access_token)
-        payment_info_response = sdk.payment().get(int(payment_id))
-        
-        if payment_info_response.get("status") in [200, 201]:
-            payment_info = payment_info_response.get("response", {})
-            status = payment_info.get("status")
-            amount = payment_info.get("transaction_amount")
+    access_token = os.environ.get("MERCADOPAGO_ACCESS_TOKEN")
+    if access_token:
+        try:
+            import mercadopago
+            sdk = mercadopago.SDK(access_token)
+            payment_info_response = sdk.payment().get(int(payment_id))
             
-            db_status = 'Pendente'
-            if status == 'approved':
-                db_status = 'Confirmado'
-            elif status in ['cancelled', 'rejected', 'refunded', 'charged_back']:
-                db_status = 'Cancelado'
+            if payment_info_response.get("status") in [200, 201]:
+                payment_info = payment_info_response.get("response", {})
+                status = payment_info.get("status")
+                amount = payment_info.get("transaction_amount")
                 
-            print(f"Mercado Pago payment status for {payment_id} is: {status} ({db_status}), value: {amount}")
-            
-            rows = run_db_query(
-                "SELECT id FROM doacoes WHERE valor = ? AND status = 'Pendente' AND tipo = 'PIX' ORDER BY id DESC LIMIT 1",
-                (amount,)
-            )
-            if rows:
-                db_id = rows[0]['id']
-                run_db_query("UPDATE doacoes SET status = ? WHERE id = ?", (db_status, db_id))
-                print(f"Database record updated. Donation ID #{db_id} status set to: {db_status}")
-                return jsonify({"success": True, "message": "Status atualizado", "db_id": db_id, "status": db_status})
+                db_status = 'Pendente'
+                if status == 'approved':
+                    db_status = 'Confirmado'
+                elif status in ['cancelled', 'rejected', 'refunded', 'charged_back']:
+                    db_status = 'Cancelado'
+                    
+                print(f"Mercado Pago payment status for {payment_id} is: {status} ({db_status}), value: {amount}")
+                
+                rows = run_db_query(
+                    "SELECT id FROM doacoes WHERE valor = ? AND status = 'Pendente' AND tipo = 'PIX' ORDER BY id DESC LIMIT 1",
+                    (amount,)
+                )
+                if rows:
+                    db_id = rows[0]['id']
+                    run_db_query("UPDATE doacoes SET status = ? WHERE id = ?", (db_status, db_id))
+                    print(f"Database record updated. Donation ID #{db_id} status set to: {db_status}")
+                    return jsonify({"success": True, "message": "Status atualizado", "db_id": db_id, "status": db_status})
+                else:
+                    print(f"No pending donation with value R$ {amount} found to update.")
+                    return jsonify({"success": True, "message": "Nenhuma doacao pendente correspondente encontrada"})
             else:
-                print(f"No pending donation with value R$ {amount} found to update.")
-                return jsonify({"success": True, "message": "Nenhuma doacao pendente correspondente encontrada"})
-        else:
-            print("Webhook query to Mercado Pago failed, status code:", payment_info_response.get("status"))
-    except Exception as e:
-        print("Webhook handling exception:", e)
+                print("Webhook query to Mercado Pago failed, status code:", payment_info_response.get("status"))
+        except Exception as e:
+            print("Webhook handling exception:", e)
         
     return jsonify({"success": False, "message": "Erro ao processar notificacao"}), 500
 
