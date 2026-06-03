@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Inicializar as doacoes
     inicializarPaginaDoacao();
 
-    // Injetar os elementos artisticos na pagina
+    // elementos artisticos na pagina
     injectGlobalAesthetics();
 });
 
@@ -173,7 +173,7 @@ function criarParticulasHero() {
 }
 
 
-// PARALLAX LEVE NO BANNER
+// PARALLAX NO BANNER
 function iniciarParallax() {
     const banner = document.querySelector(".banner");
     if (!banner) return;
@@ -665,7 +665,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-/* Auxiliar para gerar o SVG do Girassol Geométrico detalhado */
+/* Auxiliar pra gera o SVG do Girassol detalhado */
 function getSunflowerSVG() {
     const numPetals = 14;
     const angleStep = 360 / numPetals;
@@ -709,7 +709,7 @@ function getSunflowerSVG() {
     return sfSvg;
 }
 
-   // ESTÉTICA GLOBAL: INJEÇÃO DE ARTE, TINTA E DESENHO
+   // ESTÉTICA GLOBAL: ARTE, TINTA E DESENHO
 function injectGlobalAesthetics() {
     // 1. Desenhos em formato de tinta
     const splattersSvg = [
@@ -718,7 +718,7 @@ function injectGlobalAesthetics() {
         `<svg viewBox="0 0 100 100"><path d="M35,20 C60,10 80,30 80,55 C80,80 50,90 35,75 C20,60 10,30 35,20 Z" fill="currentColor"/><circle cx="85" cy="65" r="2.5" fill="currentColor"/><circle cx="15" cy="20" r="2" fill="currentColor"/><circle cx="70" cy="85" r="1.5" fill="currentColor"/></svg>`
     ];
 
-    // 2. Injetar respingos nas secoes
+    // respingos nas secoes
     const sections = document.querySelectorAll(".secao, .hero-section, .about-brief-section, .how-to-help-section, .testimonials-section, .faq-section, .about-section, .team-section, .voluntario-editorial-section, .login-wrapper, .video-section");
     sections.forEach((sec, idx) => {
         // Define a posicao correta na secao
@@ -756,7 +756,7 @@ function injectGlobalAesthetics() {
             sec.appendChild(s2);
         }
 
-        // Injetar dois girassois decorativos por secao
+        // dois girassois decorativos por secao
         const sunflower1 = document.createElement("div");
         const sfColor1 = idx % 2 === 0 ? 'sunflower-gray' : 'sunflower-green';
         const sfSize1 = idx % 3 === 0 ? 'sunflower-size-1' : 'sunflower-size-2';
@@ -791,7 +791,7 @@ function injectGlobalAesthetics() {
         sec.appendChild(sunflower2);
     });
 
-    // 3. Efeito de moldura de quadro e rotacao leve aleatoria
+    // Efeito de moldura de quadro e rotacao leve aleatoria
     const frames = document.querySelectorAll('.secao-img, .grid-img-large, .grid-img-small, .about-img, .about-image-wrapper .about-img, .about-img');
     frames.forEach((el, index) => {
         // Rotaciona ligeiramente para parecer quadros reais
@@ -806,9 +806,9 @@ function injectGlobalAesthetics() {
         });
     });
 
-    // 4. Desenhos decorativos feitos a mao
+    // Desenhos decorativos
     
-    // Setas apontando para acoes importantes
+    // Setas apontando para os negocios importantes importantes
     const buttonsToArrow = document.querySelectorAll(".hero-actions .btn-primary, .vol-form-col .btn-primary, .newsletter-form .btn-primary, .btn-doe");
     buttonsToArrow.forEach((btn, idx) => {
         // Evita duplicar setas no cabecalho
